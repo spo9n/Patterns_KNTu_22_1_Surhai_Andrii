@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="~/css/Zephyr.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Patterns_KNTu_22_1_Surhai_Andrii.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 </head>
 <body>
     <header>
@@ -25,12 +26,20 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Instrument">Instrument</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Instruments/Index">Instruments</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Category">Category</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Categories/Index">Categories</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Users/Index">Users</a>
+                        </li>
+
+
                     </ul>
                 </div>
             </div>
@@ -47,9 +56,13 @@
         </div>
     </footer>
 
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

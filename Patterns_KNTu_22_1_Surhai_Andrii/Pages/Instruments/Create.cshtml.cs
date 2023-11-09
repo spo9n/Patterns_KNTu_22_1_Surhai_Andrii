@@ -1,11 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
 
-namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages
+namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
 {
-    public class InstrumentModel : PageModel
+    public class CreateModel : PageModel
     {
         private readonly IInstrumentDAO _instrumentDAO;
         private readonly ICategoryDAO _categoryDAO;
@@ -19,8 +18,8 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages
         public List<Brand> Brands { get; set; }
         public List<Country> Countries { get; set; }
 
-        
-        public InstrumentModel(IInstrumentDAO instrumentDAO, ICategoryDAO categoryDAO, IBrandDAO brandDAO, ICountryDAO countryDAO)
+
+        public CreateModel(IInstrumentDAO instrumentDAO, ICategoryDAO categoryDAO, IBrandDAO brandDAO, ICountryDAO countryDAO)
         {
             this._instrumentDAO = instrumentDAO;
             this._categoryDAO = categoryDAO;
@@ -55,47 +54,5 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages
 
             OnGet();
         }
-
-
-        public void OnPostDelete()
-        {
-            _instrumentDAO.Delete(Convert.ToInt32(Request.Form["instrument_id_delete"]));
-
-            OnGet();
-        }
-
-
-        public void OnPostSelectById()
-        {
-            Instrument = _instrumentDAO.GetById(Convert.ToInt32(Request.Form["instrument_id_select"]));
-
-            OnGet();
-        }
-
-        public JsonResult OnGetGetInstrumentById(int id)
-        {
-            var instrument = _instrumentDAO.GetById(id);
-            return new JsonResult(instrument);
-        }
-
-        public void OnPostUpdate()
-        {
-            Instrument = new Instrument.Builder()
-                .WithId(Convert.ToInt32(Request.Form["instrument_id_update"]))
-                .WithName(Convert.ToString(Request.Form["name_update"]))
-                .WithCategoryId(Convert.ToInt32(Request.Form["category_id_update"]))
-                .WithBrandId(Convert.ToInt32(Request.Form["brand_id_update"]))
-                .WithCountryId(Convert.ToInt32(Request.Form["country_id_update"]))
-                .WithYear(Convert.ToInt32(Request.Form["year_update"]))
-                .WithPrice(Convert.ToDouble(Request.Form["price_update"]))
-                .WithQuantity(Convert.ToInt32(Request.Form["quantity_update"]))
-                .WithDescription(Convert.ToString(Request.Form["description_update"]))
-                .Build();
-
-            _instrumentDAO.Update(Instrument);
-
-            OnGet();
-        }
-
     }
 }

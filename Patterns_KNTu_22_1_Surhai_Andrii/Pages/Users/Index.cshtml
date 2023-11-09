@@ -1,0 +1,137 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.Users.IndexModel
+@{
+}
+
+<div class="mb-3">
+    <button type="button" name="createUserButton" class="btn btn-primary" onclick="document.location.href = ('/Users/Create')">
+        Create
+    </button>
+</div>
+
+<div class="mb-3">
+    <button type="button" name="updateUserButton" class="btn btn-primary" onclick="document.location.href = ('/Users/Update')">
+        Update
+    </button>
+</div>
+
+<div>
+    <h2>
+        <p class="col-form-label">SELECT ALL</p>
+    </h2>
+    <table class="table" id="usersTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Surname</th>
+                <th>Name</th>
+                <th>Patronymic</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Surname</td>
+                    <td>@user.Name</td>
+                    <td>@user.Patronymic</td>
+                    <td>@user.Email</td>
+                    <td>@user.Phone</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h2>
+        <p class="col-form-label">DELETE</p>
+    </h2>
+    <form method="POST" asp-page-handler="Delete">
+        <label for="user_id_delete" class="col-form-label">Select an Instrument:</label>
+        <select id="user_id_delete" name="user_id_delete" class="form-select-sm">
+            @foreach (var user in Model.Users)
+            {
+                <option value="@user.Id">@user.Id</option>
+            }
+        </select>
+
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+
+<div>
+    <h2>
+        <p class="col-form-label">SELECT BY ID</p>
+    </h2>
+    <form method="POST" id="selectUserForm">
+        <label for="user_id_select" class="col-form-label">Instrument:</label>
+        <select id="user_id_select" name="user_id_select" class="form-select-sm" required>
+            @foreach (var user in Model.Users)
+            {
+                <option value="@user.Id">@user.Id</option>
+            }
+        </select>
+        <br>
+    </form>
+
+    <table id="userSelectTable" class="table" style="display:none;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Surname</th>
+                <th>Name</th>
+                <th>Patronymic</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span id="userId"></span></td>
+                <td><span id="userSurname"></span></td>
+                <td><span id="userName"></span></td>
+                <td><span id="userPatronymic"></span></td>
+                <td><span id="userEmail"></span></td>
+                <td><span id="userPhone"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#user_id_select").change(function () {
+                var selectedId = $(this).val();
+                if (selectedId) {
+                    $.get("/Users/Index?handler=GetUserById&id=" + selectedId, function (data) {
+                        $("#userId").text(data.id);
+                        $("#userSurname").text(data.surname);
+                        $("#userName").text(data.name);
+                        $("#userPatronymic").text(data.patronymic);
+                        $("#userEmail").text(data.email);
+                        $("#userPhone").text(data.phone);
+
+                        $("#userSelectTable").show();
+                    });
+                } else {
+                    $("#userSelectTable").hide();
+
+                    $("#userId, #userSurname, #userName, #userPatronymic, #userEmail, #userPhone").text('');
+                }
+            });
+        });
+    </script>
+}

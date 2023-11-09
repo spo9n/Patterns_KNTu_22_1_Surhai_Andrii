@@ -1,4 +1,28 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+$(document).ready(function () {
+    $('#instrumentsTable').DataTable({
+        "buttons": [
+            {
+                extend: 'searchBuilder',
+                config: {
+                    depthLimit: 2
+                }
+            }
+        ],
+        
+        "scrollY": "592px",
+        "scrollCollapse": true,
+        "paging": true,
+        
+    });
 
-// Write your JavaScript code.
+    $('#instrumentSelectTable').DataTable({
+        "bPaginate": false,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": false,
+        "searching": false
+
+    });
+
+});

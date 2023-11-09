@@ -1,0 +1,155 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments.IndexModel
+@{
+}
+
+<div class="mb-3">
+    <button type="button" name="createInstrumentButton" class="btn btn-primary" onclick="document.location.href = ('/Instruments/Create')">
+        Create
+    </button>
+</div>
+
+<div class="mb-3">
+    <button type="button" name="updateInstrumentButton" class="btn btn-primary" onclick="document.location.href = ('/Instruments/Update')">
+        Update
+    </button>
+</div>
+
+<div>
+    <h2>
+        <p class="col-form-label">SELECT ALL</p>
+    </h2>
+    <table class="table" id="instrumentsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Country</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var instrument in Model.Instruments)
+            {
+                <tr>
+                    <td>@instrument.Id</td>
+                    <td>@instrument.Name</td>
+                    @* <td>@instrument.CategoryId</td>
+                    <td>@instrument.BrandId</td>
+                    <td>@instrument.CountryId</td> *@
+                    <td>@Model.Categories.FirstOrDefault(c => c.Id == instrument.CategoryId)?.Name</td>
+                    <td>@Model.Brands.FirstOrDefault(b => b.Id == instrument.BrandId)?.Name</td>
+                    <td>@Model.Countries.FirstOrDefault(ct => ct.Id == instrument.CountryId)?.Name</td>
+                    <td>@instrument.Year</td>
+                    <td>@instrument.Price</td>
+                    <td>@instrument.Quantity</td>
+                    <td>@instrument.Description</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h2>
+        <p class="col-form-label">DELETE</p>
+    </h2>
+    <form method="POST" asp-page-handler="Delete">
+        <label for="instrument_id_delete" class="col-form-label">Select an Instrument:</label>
+        <select id="instrument_id_delete" name="instrument_id_delete" class="form-select-sm">
+            @foreach (var instrument in Model.Instruments)
+            {
+                <option value="@instrument.Id">@instrument.Id</option>
+            }
+        </select>
+
+        <br>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+
+<div>
+    <h2>
+        <p class="col-form-label">SELECT BY ID</p>
+    </h2>
+    <form method="POST" id="selectInstrumentForm">
+        <label for="instrument_id_select" class="col-form-label">Instrument:</label>
+        <select id="instrument_id_select" name="instrument_id_select" class="form-select-sm" required>
+            @foreach (var instrument in Model.Instruments)
+            {
+                <option value="@instrument.Id">@instrument.Id</option>
+            }
+        </select>
+        <br>
+    </form>
+
+    <table id="instrumentSelectTable" class="table" style="display:none;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Country</th>
+                <th>Year</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span id="instrumentId"></span></td>
+                <td><span id="instrumentName"></span></td>
+                <td><span id="instrumentCategoryId"></span></td>
+                <td><span id="instrumentBrandId"></span></td>
+                <td><span id="instrumentCountryId"></span></td>
+                <td><span id="instrumentYear"></span></td>
+                <td><span id="instrumentPrice"></span></td>
+                <td><span id="instrumentQuantity"></span></td>
+                <td><span id="instrumentDescription"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#instrument_id_select").change(function () {
+                var selectedId = $(this).val();
+                if (selectedId) {
+                    $.get("/Instruments/Index?handler=GetInstrumentById&id=" + selectedId, function (data) {
+                        $("#instrumentId").text(data.id);
+                        $("#instrumentName").text(data.name);
+                        $("#instrumentCategoryId").text(data.categoryId);
+                        $("#instrumentBrandId").text(data.brandId);
+                        $("#instrumentCountryId").text(data.countryId);
+                        $("#instrumentYear").text(data.year);
+                        $("#instrumentPrice").text(data.price);
+                        $("#instrumentQuantity").text(data.quantity);
+                        $("#instrumentDescription").text(data.description);
+
+                        $("#instrumentSelectTable").show();
+                    });
+                } else {
+                    $("#instrumentSelectTable").hide();
+
+                    $("#instrumentId, #instrumentName, #instrumentCategoryId, #instrumentBrandId, #instrumentCountryId, #instrumentYear, #instrumentPrice, #instrumentQuantity, #instrumentDescription").text('');
+                }
+            });
+        });
+    </script>
+}

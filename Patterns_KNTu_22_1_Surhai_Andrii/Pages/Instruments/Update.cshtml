@@ -1,0 +1,109 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments.UpdateModel
+@{
+}
+
+
+<h2>
+    <p>UPDATE INSTRUMENT</p>
+</h2>
+<form method="POST" asp-page-handler="Update">
+    <div>
+        <label for="instrument_id" class="col-form-label">Select an Instrument:</label>
+        <select id="instrument_id" name="instrument_id" class="form-select-sm">
+            @foreach (var instrument in Model.Instruments)
+            {
+                <option value="@instrument.Id">@instrument.Id</option>
+            }
+        </select>
+    </div>
+    <label for="name" class="col-form-label">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+
+    <label for="category_id" class="col-form-label">Category:</label>
+    <select id="category_id" name="category_id" class="form-select-sm" required>
+        @foreach (var category in Model.Categories)
+        {
+            <option value="@category.Id">@category.Name</option>
+        }
+    </select>
+    <br>
+
+    <label for="brand_id" class="col-form-label">Brand:</label>
+    <select id="brand_id" name="brand_id" class="form-select-sm" required>
+        @foreach (var brand in Model.Brands)
+        {
+            <option value="@brand.Id">@brand.Name</option>
+        }
+    </select>
+    <br>
+
+    <label for="country_id" class="col-form-label">Country:</label>
+    <select id="country_id" name="country_id" class="form-select-sm" required>
+        @foreach (var country in Model.Countries)
+        {
+            <option value="@country.Id">@country.Name</option>
+        }
+    </select>
+    <br>
+
+    <label for="year" class="col-form-label">Year:</label>
+    <select id="year" name="year" class="form-select-sm" required>
+        @for (int i = DateTime.Now.Year; i >= 1901; i--)
+        {
+            <option value="@i">@i</option>
+        }
+    </select>
+    <br>
+
+    <label for="price" class="col-form-label">Price:</label>
+    <input type="number" id="price" name="price" required>
+    <br>
+
+    <label for="quantity" class="col-form-label">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" required>
+    <br>
+
+    <label for="description" class="col-form-label">Description:</label>
+    <input type="text" id="description" name="description" required>
+    <br>
+
+    <div>
+        <input type="submit" class="btn btn-primary" value="Update">
+    </div>
+</form>
+
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#instrument_id").change(function () {
+                var selectedId = $(this).val();
+                if (selectedId) {
+                    $.get("/Instruments/Index?handler=GetInstrumentById&id=" + selectedId, function (data) {
+                        $("#name").val(data.name);
+                        $("#category_id").val(data.categoryId);
+                        $("#brand_id").val(data.brandId);
+                        $("#country_id").val(data.countryId);
+                        $("#year").val(data.year);
+                        $("#price").val(data.price);
+                        $("#quantity").val(data.quantity);
+                        $("#description").val(data.description);
+                    });
+                } else {
+                    $("#name").val('');
+                    $("#category_id").val('');
+                    $("#brand_id").val('');
+                    $("#country_id").val('');
+                    $("#year").val('');
+                    $("#price").val('');
+                    $("#quantity").val('');
+                    $("#description").val('');
+                }
+            });
+        });
+    </script>
+}

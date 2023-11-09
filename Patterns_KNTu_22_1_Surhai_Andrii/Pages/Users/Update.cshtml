@@ -1,0 +1,74 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.Users.UpdateModel
+@{
+}
+
+
+<h2>
+    <p>UPDATE USER</p>
+</h2>
+<form method="POST" asp-page-handler="Update">
+    <div>
+        <label for="user_id" class="col-form-label">Select an User:</label>
+        <select id="user_id" name="user_id" class="form-select-sm">
+            @foreach (var user in Model.Users)
+            {
+                <option value="@user.Id">@user.Id</option>
+            }
+        </select>
+    </div>
+
+    <label for="surname" class="col-form-label">Surname:</label>
+    <input type="text" id="surname" name="surname" required>
+    <br>
+
+    <label for="name" class="col-form-label">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+
+    <label for="patronymic" class="col-form-label">Patronymic:</label>
+    <input type="text" id="patronymic" name="patronymic" required>
+    <br>
+
+    <label for="email" class="col-form-label">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <br>
+
+    <label for="phone" class="col-form-label">Phone:</label>
+    <input type="text" id="phone" name="phone" required>
+    <br>
+
+    <div>
+        <input type="submit" class="btn btn-primary" value="Update">
+    </div>
+</form>
+
+
+
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#user_id").change(function () {
+                var selectedId = $(this).val();
+                if (selectedId) {
+                    $.get("/Users/Index?handler=GetUserById&id=" + selectedId, function (data) {
+                        $("#surname").val(data.surname);
+                        $("#name").val(data.name);
+                        $("#patronymic").val(data.patronymic);
+                        $("#email").val(data.email);
+                        $("#phone").val(data.phone);
+                    });
+                } else {
+                    $("#surname").val('');
+                    $("#name").val('');
+                    $("#patronymic").val('');
+                    $("#email").val('');
+                    $("#phone").val('');
+                }
+            });
+        });
+    </script>
+}
