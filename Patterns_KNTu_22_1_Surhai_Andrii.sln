@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Patterns_KNTu_22_1_Surhai_Andrii", "Patterns_KNTu_22_1_Surhai_Andrii\Patterns_KNTu_22_1_Surhai_Andrii.csproj", "{4696C84C-EAE1-4541-9703-09CDCF8AC315}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Patterns_KNTu_22_1_Surhai_Andrii.DAL", "Patterns_KNTu_22_1_Surhai_Andrii.DAL\Patterns_KNTu_22_1_Surhai_Andrii.DAL.csproj", "{5C3CEF3A-0CB5-4799-BD1C-B56A500BABAE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4696C84C-EAE1-4541-9703-09CDCF8AC315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4696C84C-EAE1-4541-9703-09CDCF8AC315}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4696C84C-EAE1-4541-9703-09CDCF8AC315}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4696C84C-EAE1-4541-9703-09CDCF8AC315}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C3CEF3A-0CB5-4799-BD1C-B56A500BABAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C3CEF3A-0CB5-4799-BD1C-B56A500BABAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C3CEF3A-0CB5-4799-BD1C-B56A500BABAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C3CEF3A-0CB5-4799-BD1C-B56A500BABAE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6A445C8-B2BC-47BE-BBC1-E5FFF0D5172B}
+	EndGlobalSection
+EndGlobal

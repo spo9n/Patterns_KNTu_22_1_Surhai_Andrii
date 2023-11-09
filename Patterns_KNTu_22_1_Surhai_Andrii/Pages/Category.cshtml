@@ -1,0 +1,58 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.CategoryModel
+@{
+}
+
+
+<form method="POST" asp-page-handler="Create">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <button type="submit">Submit</button>
+</form>
+
+
+<form method="POST" asp-page-handler="Delete">
+    <label for="category_id_delete">Id:</label>
+    <input type="text" id="category_id_delete" name="category_id_delete" required>
+    <br>
+    <button type="submit">Submit</button>
+</form>
+
+
+<form method="POST" asp-page-handler="SelectById">
+    <input type="text" name="brand_id_select" placeholder="Enter brand ID">
+    <input type="submit" value="Submit">
+</form>
+
+@if (HttpMethods.IsPost(Request.Method)) {
+    string brandId = Request.Form["brand_id_select"];
+    string brandName = Model.Brand.Name;
+
+    <div>
+        <p><strong>ID:</strong> @brandId</p>
+        <p><strong>Name:</strong> @brandName</p>
+    </div>
+}
+
+
+<form method="POST" asp-page-handler="Update">
+    <div>
+        <label for="brand_id_update">Select a Brand:</label>
+        <select id="brand_id_update" name="brand_id_update">
+            @foreach (var brand in Model.Brands)
+            {
+                <option value="@brand.Id">@brand.Id</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label for="name_update">Update Brand Name:</label>
+        <input type="text" id="name_update" name="name_update">
+    </div>
+
+    <div>
+        <input type="submit" value="Update">
+    </div>
+</form>
