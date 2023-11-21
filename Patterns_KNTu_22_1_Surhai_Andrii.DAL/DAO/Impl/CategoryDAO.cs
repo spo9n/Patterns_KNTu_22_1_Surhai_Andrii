@@ -2,11 +2,13 @@
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Database;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
 
 namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 {
     public class CategoryDAO : ICategoryDAO
     {
+        private DAOObserver _observer = new DAOObserver();
         private DatabaseConnection _connection = DatabaseConnection.Instance;
         private MySqlCommand _command;
 
@@ -15,6 +17,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
         private const string _deleteSQL = "DELETE FROM categories WHERE category_id = @Id;";
         private const string _selectByIdSQL = "SELECT * FROM categories WHERE category_id = @Id;";
         private const string _selectAllSQL = "SELECT * FROM categories;";
+
+
+        public CategoryDAO()
+        {
+            _observer.Attach(new Logger());
+        }
 
 
         public void Create(Category category)
@@ -26,10 +34,14 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.CommandText = _insertSQL;
                 _command.Parameters.AddWithValue("@Name", category.Name);
                 object result = _command.ExecuteScalar();
+
+                _observer.Notify($"INFO. Category with name = {category.Name} was CREATED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -43,10 +55,14 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Name", category.Name);
                 _command.Parameters.AddWithValue("@Id", category.Id);
                 object result = _command.ExecuteScalar();
+
+                _observer.Notify($"INFO. Category with category_id = {category.Id} was UPDATED with name = {category.Name}.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -59,10 +75,14 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.CommandText = _deleteSQL;
                 _command.Parameters.AddWithValue("@Id", id);
                 object result = _command.ExecuteScalar();
+
+                _observer.Notify($"INFO. Category with category_id = {id} was DELETED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -93,6 +113,8 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
 
             return category;
@@ -126,6 +148,8 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
 
             return categories;

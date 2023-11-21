@@ -2,11 +2,13 @@
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Database;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
 
 namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 {
     public class OrderDAO : IOrderDAO
     {
+        private DAOObserver _observer = new DAOObserver();
         private DatabaseConnection _connection = DatabaseConnection.Instance;
         private MySqlCommand _command;
 
@@ -18,6 +20,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
         private const string _deleteSQL = "DELETE FROM orders WHERE order_id = @Id;";
         private const string _selectByIdSQL = "SELECT * FROM orders WHERE order_id = @id;";
         private const string _selectAllSQL = "SELECT * FROM orders;";
+
+
+        public OrderDAO()
+        {
+            _observer.Attach(new Logger());
+        }
 
 
         public int Create(Order order)
@@ -33,11 +41,16 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Comment", order.Comment);
 
                 lastInsertedId = Convert.ToInt32(_command.ExecuteScalar());
+
+                _observer.Notify($"INFO. Order with user_id = {order.UserId}, status_id = {order.StatusId}, " +
+                    $"comment = {order.Comment} was CREATED.");
+
                 return lastInsertedId;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
                 return lastInsertedId;
             }
         }
@@ -54,10 +67,14 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Comment", order.Comment);
                 _command.Parameters.AddWithValue("@Id", order.Id);
                 object result = _command.ExecuteScalar();
+
+                _observer.Notify($"INFO. Order with order_id = {order.Id} was UPDATED with user_id = {order.UserId}, " +
+                    $"status_id = {order.StatusId}, comment = {order.Comment}.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -70,10 +87,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.CommandText = _deleteSQL;
                 _command.Parameters.AddWithValue("@Id", id);
                 object result = _command.ExecuteScalar();
+                _observer.Notify($"INFO. Order with order_id = {id} was DELETED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -108,6 +127,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
 
             return order;
@@ -145,6 +165,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
 
             return orders;

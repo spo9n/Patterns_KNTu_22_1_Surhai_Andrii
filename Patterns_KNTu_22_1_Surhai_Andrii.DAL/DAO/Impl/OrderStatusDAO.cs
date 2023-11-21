@@ -2,11 +2,13 @@
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Database;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
 
 namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 {
     public class OrderStatusDAO : IOrderStatusDAO
     {
+        private DAOObserver _observer = new DAOObserver();
         private DatabaseConnection _connection = DatabaseConnection.Instance;
         private MySqlCommand _command;
 
@@ -15,6 +17,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
         private const string _deleteSQL = "DELETE FROM orders_statuses WHERE status_id = @Id;";
         private const string _selectByIdSQL = "SELECT * FROM orders_statuses WHERE status_id = @id;";
         private const string _selectAllSQL = "SELECT * FROM orders_statuses;";
+
+
+        public OrderStatusDAO()
+        {
+            _observer.Attach(new Logger());
+        }
 
 
         public void Create(OrderStatus orderStatus)
@@ -26,10 +34,13 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.CommandText = _insertSQL;
                 _command.Parameters.AddWithValue("@Name", orderStatus.Name);
                 object result = _command.ExecuteScalar();
+
+                _observer.Notify($"INFO. OrderStatus with name = {orderStatus.Name} was CREATED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -43,10 +54,13 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Name", orderStatus.Name);
                 _command.Parameters.AddWithValue("@Id", orderStatus.Id);
                 object result = _command.ExecuteScalar();
+
+                _observer.Notify($"INFO. OrderStatus with status_id = {orderStatus.Id} was UPDATED with name = {orderStatus.Name}.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -59,10 +73,13 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.CommandText = _deleteSQL;
                 _command.Parameters.AddWithValue("@Id", id);
                 object result = _command.ExecuteScalar();
+
+                _observer.Notify($"INFO. OrderStatus with status_id = {id} was DELETED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -93,6 +110,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
 
             return orderStatus;
@@ -126,6 +144,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
 
             return ordersStatuses;

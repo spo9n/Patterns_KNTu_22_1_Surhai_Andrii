@@ -2,11 +2,13 @@
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Database;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
 
 namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 {
     public class OrderDetailDAO : IOrderDetailDAO
     {
+        private DAOObserver _observer = new DAOObserver();
         private DatabaseConnection _connection = DatabaseConnection.Instance;
         private MySqlCommand _command;
 
@@ -17,6 +19,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
         private const string _deleteSQL = "DELETE FROM orders_details WHERE order_id = @OrderId, instrument_id = @InstrumentId;";
         private const string _selectByIdSQL = "SELECT * FROM orders_details WHERE order_id = @OrderId AND instrument_id = @InstrumentId;";
         private const string _selectAllSQL = "SELECT * FROM orders_details;";
+
+
+        public OrderDetailDAO()
+        {
+            _observer.Attach(new Logger());
+        }
 
 
         public void Create(OrderDetail orderDetail)
@@ -31,10 +39,14 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Price", orderDetail.Price);
                 _command.Parameters.AddWithValue("@Quantity", orderDetail.Quantity);
                 object result = _command.ExecuteScalar();
+
+                _observer.Notify($"INFO. OrderDetail with order_id = {orderDetail.OrderId}, instrument_id = {orderDetail.InstrumentId}, " +
+                    $"price = {orderDetail.Price}, quantity = {orderDetail.Quantity} was CREATED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -50,10 +62,14 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@OrderId", orderDetail.OrderId);
                 _command.Parameters.AddWithValue("@InstrumentId", orderDetail.InstrumentId);
                 object result = _command.ExecuteScalar();
+
+                _observer.Notify($"INFO. OrderDetail with order_id = {orderDetail.OrderId}, instrument_id = {orderDetail.InstrumentId} was UPDATED with " +
+                    $"price = {orderDetail.Price}, quantity = {orderDetail.Quantity}.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -67,10 +83,13 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@OrderId", orderId);
                 _command.Parameters.AddWithValue("@InstrumentId", instrumentId);
                 object result = _command.ExecuteScalar();
+
+                _observer.Notify($"INFO. OrderDetail with order_id = {orderId}, instrument_id = {instrumentId} was DELETED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -104,6 +123,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
 
             return orderDetail;
@@ -139,6 +159,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
 
             return ordersDetails;

@@ -2,11 +2,14 @@
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Database;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
+using static Org.BouncyCastle.Asn1.Cmp.Challenge;
 
 namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 {
     public class UserDAO : IUserDAO
     {
+        private DAOObserver _observer = new DAOObserver();
         private DatabaseConnection _connection = DatabaseConnection.Instance;
         private MySqlCommand _command;
 
@@ -17,6 +20,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
         private const string _deleteSQL = "DELETE FROM users WHERE user_id = @Id;";
         private const string _selectByIdSQL = "SELECT * FROM users WHERE user_id = @id;";
         private const string _selectAllSQL = "SELECT * FROM users;";
+
+
+        public UserDAO()
+        {
+            _observer.Attach(new Logger());
+        }
 
 
         public void Create(User user)
@@ -32,10 +41,14 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Email", user.Email);
                 _command.Parameters.AddWithValue("@Phone", user.Phone);
                 object result = _command.ExecuteScalar();
+
+                _observer.Notify($"INFO. User with surname = {user.Surname}, name = {user.Name}, patronymic = {user.Patronymic}, " +
+                    $"email = {user.Email}, phone = {user.Phone} was CREATED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -53,10 +66,14 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Phone", user.Phone);
                 _command.Parameters.AddWithValue("@Id", user.Id);
                 object result = _command.ExecuteScalar();
+
+                _observer.Notify($"INFO. User with user_id = {user.Id} was UPDATED with surname = {user.Surname}, name = {user.Name}, " +
+                    $"patronymic = {user.Patronymic}, email = {user.Email}, phone = {user.Phone}.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -69,10 +86,13 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.CommandText = _deleteSQL;
                 _command.Parameters.AddWithValue("@Id", id);
                 object result = _command.ExecuteScalar();
+
+                _observer.Notify($"INFO. User with user_id = {id} was DELETED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -107,6 +127,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
 
             return user;
@@ -144,6 +165,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                _observer.Notify($"ERROR. {ex.ToString()}.");
             }
 
             return users;
