@@ -1,0 +1,48 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.Brands.UpdateModel
+@{
+}
+
+
+<h2>
+    <p>UPDATE BRAND</p>
+</h2>
+<form method="POST" asp-page-handler="Update">
+    <div>
+        <label for="brand_id" class="col-form-label">Brand ID:</label>
+        <select id="brand_id" name="brand_id" class="form-select-sm">
+            @foreach (var brand in Model.Brands)
+            {
+                <option value="@brand.Id">@brand.Id</option>
+            }
+        </select>
+    </div>
+
+    <label for="name" class="col-form-label">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+
+    <div>
+        <input type="submit" class="btn btn-primary" value="Update">
+    </div>
+</form>
+
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#brand_id").change(function () {
+                var selectedId = $(this).val();
+                if (selectedId) {
+                    $.get("/Brands/Index?handler=GetBrandById&id=" + selectedId, function (data) {
+                        $("#name").val(data.name);
+                    });
+                } else {
+                    $("#name").val('');
+                }
+            });
+        });
+    </script>
+}

@@ -60,15 +60,15 @@
         <p class="col-form-label">DELETE</p>
     </h2>
     <form method="POST" asp-page-handler="Delete">
-        <label for="instrument_id_delete" class="col-form-label">Select an Instrument:</label>
+        <label for="instrument_id_delete" class="col-form-label">Instrument ID:</label>
         <select id="instrument_id_delete" name="instrument_id_delete" class="form-select-sm">
             @foreach (var instrument in Model.Instruments)
             {
                 <option value="@instrument.Id">@instrument.Id</option>
             }
         </select>
-
         <br>
+
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
@@ -80,7 +80,7 @@
         <p class="col-form-label">SELECT BY ID</p>
     </h2>
     <form method="POST" id="selectInstrumentForm">
-        <label for="instrument_id_select" class="col-form-label">Instrument:</label>
+        <label for="instrument_id_select" class="col-form-label">Instrument ID:</label>
         <select id="instrument_id_select" name="instrument_id_select" class="form-select-sm" required>
             @foreach (var instrument in Model.Instruments)
             {

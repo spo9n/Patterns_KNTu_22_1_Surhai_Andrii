@@ -9,7 +9,7 @@
 </h2>
 <form method="POST" asp-page-handler="Update">
     <div>
-        <label for="instrument_id" class="col-form-label">Select an Instrument:</label>
+        <label for="instrument_id" class="col-form-label">Instrument ID:</label>
         <select id="instrument_id" name="instrument_id" class="form-select-sm">
             @foreach (var instrument in Model.Instruments)
             {

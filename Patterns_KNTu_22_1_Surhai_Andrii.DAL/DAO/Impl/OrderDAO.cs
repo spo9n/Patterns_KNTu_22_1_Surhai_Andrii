@@ -11,16 +11,18 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
         private MySqlCommand _command;
 
         private const string _insertSQL = "INSERT INTO orders(user_id, status_id, comment) " +
-            "VALUES (@UserId, @StatusId, @Comment);";
-        private const string _updateSQL = "UPDATE orders SET userId = @UserId, status_id = @StatusId, comment = @Comment " +
+            "VALUES (@UserId, @StatusId, @Comment);" +
+            "SELECT LAST_INSERT_ID();";
+        private const string _updateSQL = "UPDATE orders SET user_id = @UserId, status_id = @StatusId, comment = @Comment " +
             "WHERE order_id = @Id;";
         private const string _deleteSQL = "DELETE FROM orders WHERE order_id = @Id;";
         private const string _selectByIdSQL = "SELECT * FROM orders WHERE order_id = @id;";
         private const string _selectAllSQL = "SELECT * FROM orders;";
 
 
-        public void Create(Order order)
+        public int Create(Order order)
         {
+            int lastInsertedId = -1;
             try
             {
                 _connection.GetConnection();
@@ -29,11 +31,14 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@UserId", order.UserId);
                 _command.Parameters.AddWithValue("@StatusId", order.StatusId);
                 _command.Parameters.AddWithValue("@Comment", order.Comment);
-                object result = _command.ExecuteScalar();
+
+                lastInsertedId = Convert.ToInt32(_command.ExecuteScalar());
+                return lastInsertedId;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+                return lastInsertedId;
             }
         }
 
@@ -92,6 +97,8 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                         .WithUserId(Convert.ToInt32(dataReader.GetValue(1)))
                         .WithStatusId(Convert.ToInt32(dataReader.GetValue(2)))
                         .WithComment(Convert.ToString(dataReader.GetValue(3)))
+                        .WithCreatedAt(Convert.ToDateTime(dataReader.GetValue(4)))
+                        .WithUpdatedAt(Convert.ToDateTime(dataReader.GetValue(5)))
                         .Build();
                 }
 
@@ -126,6 +133,8 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                         .WithUserId(Convert.ToInt32(dataReader.GetValue(1)))
                         .WithStatusId(Convert.ToInt32(dataReader.GetValue(2)))
                         .WithComment(Convert.ToString(dataReader.GetValue(3)))
+                        .WithCreatedAt(Convert.ToDateTime(dataReader.GetValue(4)))
+                        .WithUpdatedAt(Convert.ToDateTime(dataReader.GetValue(5)))
                         .Build();
                     orders.Add(order);
                 }

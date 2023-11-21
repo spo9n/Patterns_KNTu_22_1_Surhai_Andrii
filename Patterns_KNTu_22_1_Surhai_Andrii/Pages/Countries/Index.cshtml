@@ -1,0 +1,118 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.Countries.IndexModel
+@{
+}
+
+
+<div class="mb-3">
+    <button type="button" name="createCountryButton" class="btn btn-primary" onclick="document.location.href = ('/Countries/Create')">
+        Create
+    </button>
+</div>
+
+<div class="mb-3">
+    <button type="button" name="updateCountryButton" class="btn btn-primary" onclick="document.location.href = ('/Countries/Update')">
+        Update
+    </button>
+</div>
+
+<div>
+    <h2>
+        <p class="col-form-label">SELECT ALL</p>
+    </h2>
+    <table class="table" id="countriesTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var country in Model.Countries)
+            {
+                <tr>
+                    <td>@country.Id</td>
+                    <td>@country.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h2>
+        <p class="col-form-label">DELETE</p>
+    </h2>
+    <form method="POST" asp-page-handler="Delete">
+        <label for="country_id_delete" class="col-form-label">Country ID:</label>
+        <select id="country_id_delete" name="country_id_delete" class="form-select-sm">
+            @foreach (var country in Model.Countries)
+            {
+                <option value="@country.Id">@country.Id</option>
+            }
+        </select>
+        <br>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+
+<div>
+    <h2>
+        <p class="col-form-label">SELECT BY ID</p>
+    </h2>
+    <form method="POST" id="selectCountryForm">
+        <label for="country_id_select" class="col-form-label">Country ID:</label>
+        <select id="country_id_select" name="country_id_select" class="form-select-sm" required>
+            @foreach (var country in Model.Countries)
+            {
+                <option value="@country.Id">@country.Id</option>
+            }
+        </select>
+        <br>
+    </form>
+
+    <table id="countrySelectTable" class="table" style="display:none;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span id="countryId"></span></td>
+                <td><span id="countryName"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#country_id_select").change(function () {
+                var selectedId = $(this).val();
+                if (selectedId) {
+                    $.get("/Countries/Index?handler=GetCountryById&id=" + selectedId, function (data) {
+                        $("#countryId").text(data.id);
+                        $("#countryName").text(data.name);
+
+                        $("#countrySelectTable").show();
+                    });
+                } else {
+                    $("#countrySelectTable").hide();
+
+                    $("#countryId, #countryName").text('');
+                }
+            });
+        });
+    </script>
+}

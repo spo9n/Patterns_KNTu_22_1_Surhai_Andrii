@@ -1,0 +1,70 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders.UpdateModel
+@{
+}
+
+
+<h2>
+    <p>UPDATE ORDER</p>
+</h2>
+<form method="POST" asp-page-handler="Update">
+    <div>
+        <label for="order_id" class="col-form-label">Instrument ID:</label>
+        <select id="order_id" name="order_id" class="form-select-sm">
+            @foreach (var order in Model.Orders)
+            {
+                <option value="@order.Id">@order.Id</option>
+            }
+        </select>
+    </div>
+
+    <label for="user_id" class="col-form-label">User:</label>
+    <select id="user_id" name="user_id" class="form-select-sm" required>
+        @foreach (var user in Model.Users)
+        {
+            <option value="@user.Id">@user.Id @user.Surname @user.Name</option>
+        }
+    </select>
+    <br>
+
+    <label for="status_id" class="col-form-label">Category:</label>
+    <select id="status_id" name="status_id" class="form-select-sm" required>
+        @foreach (var orderStatus in Model.OrdersStatuses)
+        {
+            <option value="@orderStatus.Id">@orderStatus.Name</option>
+        }
+    </select>
+    <br>
+
+    <label for="comment" class="col-form-label">Comment:</label>
+    <input type="text" id="comment" name="comment" required>
+    <br>
+
+    <div>
+        <input type="submit" class="btn btn-primary" value="Update">
+    </div>
+</form>
+
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#order_id").change(function () {
+                var selectedId = $(this).val();
+                if (selectedId) {
+                    $.get("/Orders/Index?handler=GetOrderById&id=" + selectedId, function (data) {
+                        $("#user_id").val(data.userId);
+                        $("#status_id").val(data.statusId);
+                        $("#comment").val(data.comment);
+                    });
+                } else {
+                    $("#user_id").val('');
+                    $("#status_id").val('');
+                    $("#comment").val('');
+                }
+            });
+        });
+    </script>
+}

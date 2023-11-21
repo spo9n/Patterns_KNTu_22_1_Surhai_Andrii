@@ -1,0 +1,18 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.OrdersStatuses.CreateModel
+@{
+}
+
+
+<div>
+    <h2>
+        <p>CREATE ORDER STATUS</p>
+    </h2>
+    <form method="POST" asp-page-handler="Create">
+        <label for="name" class="col-form-label">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

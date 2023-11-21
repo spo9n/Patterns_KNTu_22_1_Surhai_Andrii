@@ -1,0 +1,122 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders.CreateModel
+@{
+}
+
+<div>
+    <h2>
+        <p>CREATE ORDER</p>
+    </h2>
+    <form method="POST" asp-page-handler="Create" id="orderForm">
+
+        <label for="user_id" class="col-form-label">User:</label>
+        <select id="user_id" name="user_id" class="form-select-sm" required>
+            @foreach (var user in Model.Users)
+            {
+                <option value="@user.Id">@user.Id @user.Surname @user.Name</option>
+            }
+        </select>
+        <br>
+
+        <label for="comment" class="col-form-label">Comment:</label>
+        <input type="text" id="comment" name="comment" required>
+        <br>
+
+        <label for="instruments" class="col-form-label">Instruments:</label><br>
+        <select multiple id="instruments" class="form-select-sm">
+            @foreach (var instrument in Model.Instruments)
+            {
+                <option value="@instrument.Id" data-price="@instrument.Price">@instrument.Name</option>
+            }
+        </select>
+        <br>
+
+        <button type="button" class="btn btn-primary" id="addInstrument">Submit</button>
+
+        <table id="ordersDetailsTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Instrument ID</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-primary" id="submitButton" disabled>Submit</button>
+    </form>
+</div>
+
+@section Scripts
+    {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const select = document.getElementById('instruments');
+            const addInstrumentButton = document.getElementById('addInstrument');
+            const table = document.getElementById('ordersDetailsTable').getElementsByTagName('tbody')[0];
+            const submitButton = document.getElementById('submitButton');
+
+            submitButton.disabled = true;
+
+            addInstrumentButton.addEventListener('click', function () {
+                const selectedOptions = Array.from(select.selectedOptions);
+
+                selectedOptions.forEach(option => {
+                    const instrumentId = option.value;
+                    const instrumentName = option.text;
+                    const instrumentPrice = parseFloat(option.getAttribute('data-price'));
+
+                    let existingRow = null;
+                    for (let i = 0; i < table.rows.length; i++) {
+                        if (table.rows[i].cells[0].innerText === instrumentId) {
+                            existingRow = table.rows[i];
+                            break;
+                        }
+                    }
+
+                    if (existingRow) {
+                        const quantityInput = existingRow.cells[2].getElementsByTagName('input')[0];
+                        const currentQuantity = parseInt(quantityInput.value);
+                        quantityInput.value = currentQuantity + 1;
+                    } else {
+                        const row = table.insertRow();
+                        const cellId = row.insertCell(0);
+                        // cellId.innerHTML = `<span name="instrumentId_${instrumentId}">${instrumentId}</span>`;
+                        cellId.innerHTML = `<input readonly type="number" class="form-control" name="instrumentId_${instrumentId}" value="${instrumentId}">`;
+
+                        const cellPrice = row.insertCell(1);
+                        cellPrice.innerHTML = `<input type="number" class="form-control" name="instrumentPrice_${instrumentId}" value="${instrumentPrice}">`;
+
+                        const cellQuantity = row.insertCell(2);
+                        cellQuantity.innerHTML = `<input type="number" class="form-control" name="instrumentQuantity_${instrumentId}" value="1">`;
+
+                        const cellAction = row.insertCell(3);
+                        cellAction.innerHTML = `<button type="button" class="btn btn-danger" onclick="removeInstrument(this)">Remove</button>`;
+                    }
+
+                    checkTable();
+                });
+            });
+
+            function removeInstrument(button) {
+                const row = button.parentNode.parentNode;
+                row.remove();
+                checkTable();
+            }
+
+            function checkTable() {
+                if (table.rows.length > 0) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            }
+
+            window.removeInstrument = removeInstrument;
+        });
+    </script>
+}

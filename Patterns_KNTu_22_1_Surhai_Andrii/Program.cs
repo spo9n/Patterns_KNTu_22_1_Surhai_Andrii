@@ -16,12 +16,6 @@ builder.Services.AddTransient<IOrderDetailDAO, OrderDetailDAO>();
 builder.Services.AddTransient<IOrderStatusDAO, OrderStatusDAO>();
 builder.Services.AddTransient<IUserDAO, UserDAO>();
 
-
-//builder.Services.AddScoped<IInstrumentDAO, InstrumentDAO>();
-//builder.Services.AddScoped<ICategoryDAO, CategoryDAO>();
-//builder.Services.AddScoped<IBrandDAO, BrandDAO>();
-//builder.Services.AddScoped<ICountryDAO, CountryDAO>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

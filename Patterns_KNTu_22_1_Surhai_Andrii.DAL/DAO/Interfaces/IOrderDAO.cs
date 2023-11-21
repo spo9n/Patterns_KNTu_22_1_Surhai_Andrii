@@ -4,7 +4,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces
 {
     public interface IOrderDAO
     {
-        void Create(Order Order);
+        int Create(Order Order);
         void Update(Order Order);
         void Delete(int id);
         Order GetById(int id);

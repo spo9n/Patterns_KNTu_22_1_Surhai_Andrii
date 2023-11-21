@@ -1,0 +1,141 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders.IndexModel
+@{
+}
+
+
+<div class="mb-3">
+    <button type="button" name="createOrderButton" class="btn btn-primary" onclick="document.location.href = ('/Orders/Create')">
+        Create
+    </button>
+</div>
+
+<div class="mb-3">
+    <button type="button" name="updateOrderButton" class="btn btn-primary" onclick="document.location.href = ('/Orders/Update')">
+        Update
+    </button>
+</div>
+
+<div>
+    <h2>
+        <p class="col-form-label">SELECT ALL</p>
+    </h2>
+    <table class="table" id="ordersTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Comment</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@Model.Users.FirstOrDefault(u => u.Id == order.UserId)?.Id
+                        @Model.Users.FirstOrDefault(u => u.Id == order.UserId)?.Surname
+                        @Model.Users.FirstOrDefault(u => u.Id == order.UserId)?.Name
+                    </td>
+                    <td>@Model.OrdersStatuses.FirstOrDefault(os => os.Id == order.StatusId)?.Name</td>
+                    <td>@order.Comment</td>
+                    <td>@order.CreatedAt</td>
+                    <td>@order.UpdatedAt</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h2>
+        <p class="col-form-label">DELETE</p>
+    </h2>
+    <form method="POST" asp-page-handler="Delete">
+        <label for="order_id_delete" class="col-form-label">Order ID:</label>
+        <select id="order_id_delete" name="order_id_delete" class="form-select-sm">
+            @foreach (var order in Model.Orders)
+            {
+                <option value="@order.Id">@order.Id</option>
+            }
+        </select>
+        <br>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+
+<div>
+    <h2>
+        <p class="col-form-label">SELECT BY ID</p>
+    </h2>
+    <form method="POST" id="selectOrderForm">
+        <label for="order_id_select" class="col-form-label">Order ID:</label>
+        <select id="order_id_select" name="order_id_select" class="form-select-sm" required>
+            @foreach (var order in Model.Orders)
+            {
+                <option value="@order.Id">@order.Id</option>
+            }
+        </select>
+        <br>
+    </form>
+
+    <table id="orderSelectTable" class="table" style="display:none;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Comment</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span id="orderId"></span></td>
+                <td><span id="orderUserId"></span></td>
+                <td><span id="orderStatusId"></span></td>
+                <td><span id="orderComment"></span></td>
+                <td><span id="orderCreatedAt"></span></td>
+                <td><span id="orderUpdatedAt"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#order_id_select").change(function () {
+                var selectedId = $(this).val();
+                if (selectedId) {
+                    $.get("/Orders/Index?handler=GetOrderById&id=" + selectedId, function (data) {
+                        $("#orderId").text(data.id);
+                        $("#orderUserId").text(data.userId);
+                        $("#orderStatusId").text(data.statusId);
+                        $("#orderComment").text(data.comment);
+                        $("#orderCreatedAt").text(data.createdAt);
+                        $("#orderUpdatedAt").text(data.updatedAt);
+
+                        $("#orderSelectTable").show();
+                    });
+                } else {
+                    $("#orderSelectTable").hide();
+
+                    $("#orderId, #orderUserId, #orderStatusId, #orderComment, #orderCreatedAt, #orderUpdatedAt").text('');
+                }
+            });
+        });
+    </script>
+}

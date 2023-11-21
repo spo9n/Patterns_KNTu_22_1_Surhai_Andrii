@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Metrics;
-
-namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities
+﻿namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities
 {
     public class OrderDetail
     {

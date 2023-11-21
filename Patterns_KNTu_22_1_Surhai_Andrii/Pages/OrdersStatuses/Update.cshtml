@@ -1,0 +1,47 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.OrdersStatuses.UpdateModel
+@{
+}
+
+
+<h2>
+    <p>UPDATE ORDER STATUS</p>
+</h2>
+<form method="POST" asp-page-handler="Update">
+    <div>
+        <label for="status_id" class="col-form-label">Status ID:</label>
+        <select id="status_id" name="status_id" class="form-select-sm">
+            @foreach (var orderStatus in Model.OrdersStatuses)
+            {
+                <option value="@orderStatus.Id">@orderStatus.Id</option>
+            }
+        </select>
+    </div>
+
+    <label for="name" class="col-form-label">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+
+    <div>
+        <input type="submit" class="btn btn-primary" value="Update">
+    </div>
+</form>
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#status_id").change(function () {
+                var selectedId = $(this).val();
+                if (selectedId) {
+                    $.get("/OrdersStatuses/Index?handler=GetOrderStatusById&id=" + selectedId, function (data) {
+                        $("#name").val(data.name);
+                    });
+                } else {
+                    $("#name").val('');
+                }
+            });
+        });
+    </script>
+}

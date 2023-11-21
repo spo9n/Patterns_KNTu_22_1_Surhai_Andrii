@@ -9,7 +9,7 @@
 </h2>
 <form method="POST" asp-page-handler="Update">
     <div>
-        <label for="user_id" class="col-form-label">Select an User:</label>
+        <label for="user_id" class="col-form-label">User ID:</label>
         <select id="user_id" name="user_id" class="form-select-sm">
             @foreach (var user in Model.Users)
             {

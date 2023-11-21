@@ -1,0 +1,40 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
+
+namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.OrdersStatuses
+{
+    public class CreateModel : PageModel
+    {
+        private readonly IOrderStatusDAO _orderStatusDAO;
+
+        public OrderStatus OrderStatus { get; set; }
+
+        public List<OrderStatus> OrdersStatuses { get; set; }
+
+
+        public CreateModel(IOrderStatusDAO orderStatusDAO)
+        {
+            this._orderStatusDAO = orderStatusDAO;
+        }
+
+
+        public void OnGet()
+        {
+            OrdersStatuses = _orderStatusDAO.GetAll();
+        }
+
+
+        public void OnPostCreate()
+        {
+            OrderStatus = new OrderStatus.Builder()
+                .WithName(Convert.ToString(Request.Form["name"]))
+                .Build();
+
+            _orderStatusDAO.Create(OrderStatus);
+
+            OnGet();
+        }
+    }
+}

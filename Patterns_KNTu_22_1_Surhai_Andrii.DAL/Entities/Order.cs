@@ -42,6 +42,18 @@
                 return this;
             }
 
+            public Builder WithCreatedAt(DateTime createdAt)
+            {
+                order.CreatedAt = createdAt;
+                return this;
+            }
+
+            public Builder WithUpdatedAt(DateTime updatedAt)
+            {
+                order.UpdatedAt = updatedAt;
+                return this;
+            }
+
             public Order Build()
             {
                 if (order.Id == null || order.UserId == null || order.StatusId == null || string.IsNullOrEmpty(order.Comment))

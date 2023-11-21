@@ -1,0 +1,118 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.OrdersStatuses.IndexModel
+@{
+}
+
+
+<div class="mb-3">
+    <button type="button" name="createOrderStatusButton" class="btn btn-primary" onclick="document.location.href = ('/OrdersStatuses/Create')">
+        Create
+    </button>
+</div>
+
+<div class="mb-3">
+    <button type="button" name="updateOrderStatusButton" class="btn btn-primary" onclick="document.location.href = ('/OrdersStatuses/Update')">
+        Update
+    </button>
+</div>
+
+<div>
+    <h2>
+        <p class="col-form-label">SELECT ALL</p>
+    </h2>
+    <table class="table" id="ordersStatusesTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var orderStatus in Model.OrdersStatuses)
+            {
+                <tr>
+                    <td>@orderStatus.Id</td>
+                    <td>@orderStatus.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h2>
+        <p class="col-form-label">DELETE</p>
+    </h2>
+    <form method="POST" asp-page-handler="Delete">
+        <label for="status_id_delete" class="col-form-label">Status ID:</label>
+        <select id="status_id_delete" name="status_id_delete" class="form-select-sm">
+            @foreach (var orderStatus in Model.OrdersStatuses)
+            {
+                <option value="@orderStatus.Id">@orderStatus.Id</option>
+            }
+        </select>
+        <br>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+
+<div>
+    <h2>
+        <p class="col-form-label">SELECT BY ID</p>
+    </h2>
+    <form method="POST" id="selectOrderStatusForm">
+        <label for="status_id_select" class="col-form-label">Status ID:</label>
+        <select id="status_id_select" name="status_id_select" class="form-select-sm" required>
+            @foreach (var orderStatus in Model.OrdersStatuses)
+            {
+                <option value="@orderStatus.Id">@orderStatus.Id</option>
+            }
+        </select>
+        <br>
+    </form>
+
+    <table id="orderStatusSelectTable" class="table" style="display:none;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span id="statusId"></span></td>
+                <td><span id="statusName"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#status_id_select").change(function () {
+                var selectedId = $(this).val();
+                if (selectedId) {
+                    $.get("/OrdersStatuses/Index?handler=GetOrderStatusById&id=" + selectedId, function (data) {
+                        $("#statusId").text(data.id);
+                        $("#statusName").text(data.name);
+
+                        $("#orderStatusSelectTable").show();
+                    });
+                } else {
+                    $("#orderStatusSelectTable").hide();
+
+                    $("#statusId, #statusName").text('');
+                }
+            });
+        });
+    </script>
+}

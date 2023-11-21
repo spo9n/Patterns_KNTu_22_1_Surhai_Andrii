@@ -1,0 +1,118 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.Categories.IndexModel
+@{
+}
+
+
+<div class="mb-3">
+    <button type="button" name="createCategoryButton" class="btn btn-primary" onclick="document.location.href = ('/Categories/Create')">
+        Create
+    </button>
+</div>
+
+<div class="mb-3">
+    <button type="button" name="updateCategoryButton" class="btn btn-primary" onclick="document.location.href = ('/Categories/Update')">
+        Update
+    </button>
+</div>
+
+<div>
+    <h2>
+        <p class="col-form-label">SELECT ALL</p>
+    </h2>
+    <table class="table" id="categoriesTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model.Categories)
+            {
+                <tr>
+                    <td>@category.Id</td>
+                    <td>@category.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h2>
+        <p class="col-form-label">DELETE</p>
+    </h2>
+    <form method="POST" asp-page-handler="Delete">
+        <label for="category_id_delete" class="col-form-label">Category ID:</label>
+        <select id="category_id_delete" name="category_id_delete" class="form-select-sm">
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.Id">@category.Id</option>
+            }
+        </select>
+        <br>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+
+<div>
+    <h2>
+        <p class="col-form-label">SELECT BY ID</p>
+    </h2>
+    <form method="POST" id="selectCategoryForm">
+        <label for="category_id_select" class="col-form-label">Category ID:</label>
+        <select id="category_id_select" name="category_id_select" class="form-select-sm" required>
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.Id">@category.Id</option>
+            }
+        </select>
+        <br>
+    </form>
+
+    <table id="categorySelectTable" class="table" style="display:none;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span id="categoryId"></span></td>
+                <td><span id="categoryName"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#category_id_select").change(function () {
+                var selectedId = $(this).val();
+                if (selectedId) {
+                    $.get("/Categories/Index?handler=GetCategoryById&id=" + selectedId, function (data) {
+                        $("#categoryId").text(data.id);
+                        $("#categoryName").text(data.name);
+
+                        $("#categorySelectTable").show();
+                    });
+                } else {
+                    $("#categorySelectTable").hide();
+
+                    $("#categoryId, #categoryName").text('');
+                }
+            });
+        });
+    </script>
+}
