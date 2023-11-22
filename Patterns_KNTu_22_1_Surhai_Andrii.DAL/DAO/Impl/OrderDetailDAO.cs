@@ -16,8 +16,8 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             "VALUES (@OrderId, @InstrumentId, @Price, @Quantity);";
         private const string _updateSQL = "UPDATE orders_details SET price = @Price, quantity = @Quantity" +
             "WHERE order_id = @OrderId AND instrument_id = @InstrumentId;";
-        private const string _deleteSQL = "DELETE FROM orders_details WHERE order_id = @OrderId, instrument_id = @InstrumentId;";
-        private const string _selectByIdSQL = "SELECT * FROM orders_details WHERE order_id = @OrderId AND instrument_id = @InstrumentId;";
+        private const string _deleteSQL = "DELETE FROM orders_details WHERE order_id = @OrderId;";
+        private const string _selectByIdSQL = "SELECT * FROM orders_details WHERE order_id = @OrderId;";
         private const string _selectAllSQL = "SELECT * FROM orders_details;";
 
 
@@ -73,7 +73,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             }
         }
 
-        public void Delete(int orderId, int instrumentId)
+        public void Delete(int orderId)
         {
             try
             {
@@ -81,10 +81,9 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command = _connection.GetConnection().CreateCommand();
                 _command.CommandText = _deleteSQL;
                 _command.Parameters.AddWithValue("@OrderId", orderId);
-                _command.Parameters.AddWithValue("@InstrumentId", instrumentId);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. OrderDetail with order_id = {orderId}, instrument_id = {instrumentId} was DELETED.");
+                _observer.Notify($"INFO. OrderDetail with order_id = {orderId} was DELETED.");
             }
             catch (Exception ex)
             {
@@ -93,8 +92,9 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             }
         }
 
-        public OrderDetail GetById(int orderId, int instrumentId)
+        public List<OrderDetail> GetById(int orderId)
         {
+            List<OrderDetail> ordersDetails = new List<OrderDetail>();
             OrderDetail orderDetail = null;
             try
             {
@@ -102,12 +102,11 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command = _connection.GetConnection().CreateCommand();
                 _command.CommandText = _selectByIdSQL;
                 _command.Parameters.AddWithValue("@OrderId", orderId);
-                _command.Parameters.AddWithValue("@InstrumentId", instrumentId);
                 object result = _command.ExecuteScalar();
 
                 MySqlDataReader dataReader = _command.ExecuteReader();
 
-                if (dataReader.Read())
+                while (dataReader.Read())
                 {
                     orderDetail = new OrderDetail.Builder()
                         .WithOrderId(Convert.ToInt32(dataReader.GetValue(0)))
@@ -115,6 +114,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                         .WithPrice(Convert.ToDouble(dataReader.GetValue(2)))
                         .WithQuantity(Convert.ToInt32(dataReader.GetValue(3)))
                         .Build();
+                    ordersDetails.Add(orderDetail);
                 }
 
                 dataReader.Close();
@@ -126,7 +126,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _observer.Notify($"ERROR. {ex.ToString()}.");
             }
 
-            return orderDetail;
+            return ordersDetails;
         }
 
         public List<OrderDetail> GetAll()

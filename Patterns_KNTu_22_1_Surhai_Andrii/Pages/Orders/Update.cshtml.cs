@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
 
@@ -7,6 +8,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
 {
     public class UpdateModel : PageModel
     {
+        private readonly IDAOFactory _daoFactory;
         private readonly IOrderDAO _orderDAO;
         private readonly IOrderStatusDAO _orderStatusDAO;
         private readonly IUserDAO _userDAO;
@@ -18,11 +20,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
         public List<User> Users { get; set; }
 
 
-        public UpdateModel(IOrderDAO orderDAO, IOrderStatusDAO orderStatusDAO, IUserDAO userDAO)
+        public UpdateModel(IDAOFactory daoFactory)
         {
-            this._orderDAO = orderDAO;
-            this._orderStatusDAO = orderStatusDAO;
-            this._userDAO = userDAO;
+            this._daoFactory = daoFactory;
+            this._orderDAO = _daoFactory.CreateOrderDAO();
+            this._orderStatusDAO = _daoFactory.CreateOrderStatusDAO();
+            this._userDAO = _daoFactory.CreateUserDAO();
         }
 
 

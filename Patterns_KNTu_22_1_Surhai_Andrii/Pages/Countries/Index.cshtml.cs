@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
 
@@ -7,6 +8,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Countries
 {
     public class IndexModel : PageModel
     {
+        private readonly IDAOFactory _daoFactory;
         private readonly ICountryDAO _countryDAO;
 
         public Country Country { get; set; }
@@ -14,9 +16,10 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Countries
         public List<Country> Countries { get; set; }
 
 
-        public IndexModel(ICountryDAO countryDAO)
+        public IndexModel(IDAOFactory daoFactory)
         {
-            this._countryDAO = countryDAO;
+            this._daoFactory = daoFactory;
+            this._countryDAO = _daoFactory.CreateCountryDAO();
         }
 
 

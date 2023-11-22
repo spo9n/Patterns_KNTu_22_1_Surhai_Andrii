@@ -6,8 +6,8 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces
     {
         void Create(OrderDetail orderDetail);
         void Update(OrderDetail orderDetail);
-        void Delete(int orderId, int instrumentId);
-        OrderDetail GetById(int orderId, int instrumentId);
+        void Delete(int orderId);
+        List<OrderDetail> GetById(int orderId);
         List<OrderDetail> GetAll();
     }
 }

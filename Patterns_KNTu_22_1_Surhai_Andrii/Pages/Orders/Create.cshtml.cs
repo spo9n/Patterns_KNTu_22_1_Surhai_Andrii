@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
 
@@ -6,6 +7,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
 {
     public class CreateModel : PageModel
     {
+        private readonly IDAOFactory _daoFactory;
         private readonly IOrderDAO _orderDAO;
         private readonly IOrderDetailDAO _orderDetailDAO;
         private readonly IOrderStatusDAO _orderStatusDAO;
@@ -22,13 +24,14 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
         public List<User> Users { get; set; }
 
 
-        public CreateModel(IOrderDAO orderDAO, IOrderDetailDAO orderDetailDAO, IOrderStatusDAO orderStatusDAO, IInstrumentDAO instrumentDAO, IUserDAO userDAO)
+        public CreateModel(IDAOFactory daoFactory)
         {
-            this._orderDAO = orderDAO;
-            this._orderDetailDAO = orderDetailDAO;
-            this._orderStatusDAO = orderStatusDAO;
-            this._instrumentDAO = instrumentDAO;
-            this._userDAO = userDAO;
+            this._daoFactory = daoFactory;
+            this._orderDAO = _daoFactory.CreateOrderDAO();
+            this._orderDetailDAO = _daoFactory.CreateOrderDetailDAO();
+            this._orderStatusDAO = _daoFactory.CreateOrderStatusDAO();
+            this._instrumentDAO = _daoFactory.CreateInstrumentDAO();
+            this._userDAO = _daoFactory.CreateUserDAO();
         }
 
 

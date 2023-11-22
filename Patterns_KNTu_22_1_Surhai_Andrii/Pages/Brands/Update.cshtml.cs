@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
 
@@ -6,6 +7,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Brands
 {
     public class UpdateModel : PageModel
     {
+        private readonly IDAOFactory _daoFactory;
         private readonly IBrandDAO _brandDAO;
 
         public Brand Brand { get; set; }
@@ -13,9 +15,10 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Brands
         public List<Brand> Brands { get; set; }
 
 
-        public UpdateModel(IBrandDAO brandDAO)
+        public UpdateModel(IDAOFactory daoFactory)
         {
-            this._brandDAO = brandDAO;
+            this._daoFactory = daoFactory;
+            this._brandDAO = _daoFactory.CreateBrandDAO();
         }
 
 

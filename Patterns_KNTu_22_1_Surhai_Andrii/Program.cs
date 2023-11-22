@@ -1,3 +1,4 @@
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 
+builder.Services.AddTransient<IDAOFactory, DAOFactory>();
 builder.Services.AddTransient<IBrandDAO, BrandDAO>();
 builder.Services.AddTransient<ICategoryDAO, CategoryDAO>();
 builder.Services.AddTransient<ICountryDAO, CountryDAO>();

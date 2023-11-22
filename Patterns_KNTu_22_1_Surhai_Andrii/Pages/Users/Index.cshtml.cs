@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
@@ -8,6 +9,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Users
 {
     public class IndexModel : PageModel
     {
+        private readonly IDAOFactory _daoFactory;
         private readonly IUserDAO _userDAO;
 
         public User User { get; set; }
@@ -15,9 +17,10 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Users
         public List<User> Users { get; set; }
 
 
-        public IndexModel(IUserDAO userDao)
+        public IndexModel(IDAOFactory daoFactory)
         {
-            this._userDAO = userDao;
+            this._daoFactory = daoFactory;
+            this._userDAO = _daoFactory.CreateUserDAO();
         }
 
 

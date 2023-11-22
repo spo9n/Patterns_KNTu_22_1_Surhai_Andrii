@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
 
@@ -6,6 +7,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
 {
     public class CreateModel : PageModel
     {
+        private readonly IDAOFactory _daoFactory;
         private readonly IInstrumentDAO _instrumentDAO;
         private readonly ICategoryDAO _categoryDAO;
         private readonly IBrandDAO _brandDAO;
@@ -19,12 +21,13 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
         public List<Country> Countries { get; set; }
 
 
-        public CreateModel(IInstrumentDAO instrumentDAO, ICategoryDAO categoryDAO, IBrandDAO brandDAO, ICountryDAO countryDAO)
+        public CreateModel(IDAOFactory daoFactory)
         {
-            this._instrumentDAO = instrumentDAO;
-            this._categoryDAO = categoryDAO;
-            this._brandDAO = brandDAO;
-            this._countryDAO = countryDAO;
+            this._daoFactory = daoFactory;
+            this._instrumentDAO = _daoFactory.CreateInstrumentDAO();
+            this._categoryDAO = _daoFactory.CreateCategoryDAO();
+            this._brandDAO = _daoFactory.CreateBrandDAO();
+            this._countryDAO = _daoFactory.CreateCountryDAO();
         }
 
 

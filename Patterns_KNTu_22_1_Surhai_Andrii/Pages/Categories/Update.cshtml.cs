@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
 
@@ -6,6 +7,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Categories
 {
     public class UpdateModel : PageModel
     {
+        private readonly IDAOFactory _daoFactory;
         private readonly ICategoryDAO _categoryDAO;
 
         public Category Category { get; set; }
@@ -13,9 +15,10 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Categories
         public List<Category> Categories { get; set; }
 
 
-        public UpdateModel(ICategoryDAO categoryDAO)
+        public UpdateModel(IDAOFactory daoFactory)
         {
-            this._categoryDAO = categoryDAO;
+            this._daoFactory = daoFactory;
+            this._categoryDAO = _daoFactory.CreateCategoryDAO();
         }
 
 

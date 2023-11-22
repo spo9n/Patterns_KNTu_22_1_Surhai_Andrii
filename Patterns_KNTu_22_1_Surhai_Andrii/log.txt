@@ -45,3 +45,32 @@
 21.11.2023 16:39:39: INFO. Category with category_id = 12 was UPDATED with name = 1233.
 21.11.2023 16:39:44: INFO. Category with category_id = 12 was DELETED.
 21.11.2023 17:19:50: INFO. Instrument with name = 123123455, category_id = 7, brand_id = 2, country_id = 1, year = 2019, price = 12412, quantity = 122, description = 5551 was CREATED.
+22.11.2023 17:59:00: INFO. Brand with name = 441 was CREATED.
+22.11.2023 17:59:05: INFO. Brand with brand_id = 13 was UDPATED with name = 4412.
+22.11.2023 17:59:12: INFO. Brand with brand_id = 13 was DELETED.
+22.11.2023 18:14:04: INFO. Instrument with name = 15151, category_id = 8, brand_id = 2, country_id = 1, year = 2021, price = 124124, quantity = 441, description = 111234 was CREATED.
+22.11.2023 18:14:25: INFO. Instrument with instrument_id = 21 was UPDATED with name = 444, category_id = 8, brand_id = 5, country_id = 1, year = 2015, price = 414, quantity = 444, description = 4444.
+22.11.2023 18:14:33: INFO. Instrument with instrument_id = 21 was DELETED.
+22.11.2023 18:14:42: INFO. Category with name = 41245 was CREATED.
+22.11.2023 18:14:47: INFO. Category with category_id = 14 was UPDATED with name = 11255.
+22.11.2023 18:14:51: INFO. Category with category_id = 14 was DELETED.
+22.11.2023 18:14:58: INFO. Brand with name = 511677 was CREATED.
+22.11.2023 18:15:03: INFO. Brand with brand_id = 2 was UDPATED with name = 7122.
+22.11.2023 18:15:08: INFO. Brand with brand_id = 14 was DELETED.
+22.11.2023 18:15:11: INFO. Country with name = 1515 was CREATED.
+22.11.2023 18:15:16: INFO. Country with country_id = 2 was UPDATED with name = 1666.
+22.11.2023 18:15:21: INFO. Country with country_id = 4 was DELETED.
+22.11.2023 18:16:00: INFO. User with surname = 16161, name = 1661161, patronymic = 16161661, email = 124t4@tqwt.qw, phone = 1241244 was CREATED.
+22.11.2023 18:16:08: INFO. User with user_id = 7 was UPDATED with surname = 111, name = 111, patronymic = 16161661, email = 124t4@tqwt.qw, phone = 1241244.
+22.11.2023 18:16:14: INFO. User with user_id = 7 was DELETED.
+22.11.2023 18:16:25: INFO. Order with user_id = 4, status_id = 1, comment = 124124124 was CREATED.
+22.11.2023 18:16:25: INFO. OrderDetail with order_id = 13, instrument_id = 8, price = 24662, quantity = 1 was CREATED.
+22.11.2023 18:16:25: INFO. OrderDetail with order_id = 13, instrument_id = 7, price = 24662, quantity = 1 was CREATED.
+22.11.2023 18:16:52: INFO. Order with order_id = 13 was UPDATED with user_id = 4, status_id = 1, comment = 12455.
+22.11.2023 18:16:58: INFO. Order with order_id = 13 was DELETED.
+22.11.2023 18:17:02: INFO. OrderStatus with name = 165777 was CREATED.
+22.11.2023 18:17:07: INFO. OrderStatus with status_id = 2 was UPDATED with name = 12512515.
+22.11.2023 18:17:10: INFO. OrderStatus with status_id = 4 was DELETED.
+22.11.2023 19:06:07: INFO. Order with user_id = 6, status_id = 1, comment = 12122112 was CREATED.
+22.11.2023 19:06:07: INFO. OrderDetail with order_id = 14, instrument_id = 17, price = 124124, quantity = 5 was CREATED.
+22.11.2023 19:06:07: INFO. OrderDetail with order_id = 14, instrument_id = 20, price = 12412, quantity = 122 was CREATED.
