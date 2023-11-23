@@ -8,45 +8,6 @@
 
 @using Patterns_KNTu_22_1_Surhai_Andrii.DAL
 
-@* @{
-    using (var dbConnection = DatabaseConnection.GetConnection())
-    {
-        try
-        {
-            dbConnection.Open();
-
-            <div class="alert alert-success">
-                <strong>Success!</strong> Database connection is open.
-            </div>
-        }
-        catch (Exception ex)
-        {
-            <div class="alert alert-danger">
-                <strong>Error:</strong> @ex.Message
-            </div>
-        }
-        finally
-        {
-            dbConnection.Close();
-        }
-    }
-}
-
-
-<p>
-    <a href="@Url.Action("Index", "Home")" class="btn btn-default">Back to Home</a>
-</p> *@
-
-@* <form method="post">
-    <button type="submit" class="btn btn-primary">Test Connection</button>
-</form>
-
-@if (Model.ConnectionStatusMessage != null)
-{
-    <div class="alert alert-info">@Model.ConnectionStatusMessage</div>
-} *@
-
-
 <form method="post">
     <button type="submit" name="testConnectionButton">Test Database Connection</button>
 </form>
