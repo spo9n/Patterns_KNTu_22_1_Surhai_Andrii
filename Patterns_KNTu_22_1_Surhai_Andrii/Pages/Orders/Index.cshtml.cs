@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
 
 namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
 {
     public class IndexModel : PageModel
     {
+        private readonly IObserver _observer;
         private readonly IDAOFactory _daoFactory;
         private readonly IOrderDAO _orderDAO;
         private readonly IOrderDetailDAO _orderDetailDAO;
@@ -18,7 +20,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
 
         public Order Order { get; set; }
         public OrderDetail OrderDetail { get; set; }
-
         public List<Order> Orders { get; set; }
         public List<OrderDetail> OrdersDetails { get; set; }
         public List<OrderStatus> OrdersStatuses { get; set; }
@@ -26,7 +27,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
         public List<User> Users { get; set; }
 
 
-        public IndexModel(IDAOFactory daoFactory)
+        public IndexModel(IDAOFactory daoFactory, IObserver observer)
         {
             this._daoFactory = daoFactory;
             this._orderDAO = _daoFactory.CreateOrderDAO();
@@ -34,8 +35,11 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
             this._orderStatusDAO = _daoFactory.CreateOrderStatusDAO();
             this._instrumentDAO = _daoFactory.CreateInstrumentDAO();
             this._userDAO = _daoFactory.CreateUserDAO();
-        }
+            this._observer = observer;
 
+            this._orderDAO.AddObserver(_observer);
+            this._orderDetailDAO.AddObserver(_observer);
+        }
 
         public void OnGet()
         {
@@ -46,7 +50,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
             Users = _userDAO.GetAll();
         }
 
-
         public void OnPostDelete()
         {
             int id = Convert.ToInt32(Request.Form["order_id_delete"]);
@@ -55,13 +58,11 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
             OnGet();
         }
 
-
         public JsonResult OnGetGetOrderDetails(int id)
         {
             List<OrderDetail> orderDetails = _orderDetailDAO.GetById(id);
             return new JsonResult(orderDetails);
         }
-
 
         public JsonResult OnGetGetOrderById(int id)
         {

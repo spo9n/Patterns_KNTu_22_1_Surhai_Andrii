@@ -74,3 +74,10 @@
 22.11.2023 19:06:07: INFO. Order with user_id = 6, status_id = 1, comment = 12122112 was CREATED.
 22.11.2023 19:06:07: INFO. OrderDetail with order_id = 14, instrument_id = 17, price = 124124, quantity = 5 was CREATED.
 22.11.2023 19:06:07: INFO. OrderDetail with order_id = 14, instrument_id = 20, price = 12412, quantity = 122 was CREATED.
+25.11.2023 12:07:22: INFO. Brand with name = Maxtone was CREATED.
+25.11.2023 12:42:27: INFO. Brand with brand_id = 5 was UDPATED with name = ESP.
+25.11.2023 13:46:56: INFO. Brand with brand_id = 5 was UDPATED with name = ESPP.
+25.11.2023 14:30:25: INFO. Instrument with instrument_id = 3 was UPDATED with name = Electric Guitar 1, category_id = 2, brand_id = 1, country_id = 5, year = 2023, price = 31000, quantity = 3, description = Description.....
+25.11.2023 14:32:20: INFO. Brand with brand_id = 5 was UDPATED with name = ESP.
+25.11.2023 14:32:24: INFO. Category with name = 124141 was CREATED.
+25.11.2023 14:32:29: INFO. Category with category_id = 5 was DELETED.

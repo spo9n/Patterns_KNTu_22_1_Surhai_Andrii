@@ -1,33 +1,34 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
 
 namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Users
 {
     public class CreateModel : PageModel
     {
+        private readonly IObserver _observer;
         private readonly IDAOFactory _daoFactory;
         private readonly IUserDAO _userDAO;
 
         public User User { get; set; }
-
         public List<User> Users { get; set; }
 
 
-        public CreateModel(IDAOFactory daoFactory)
+        public CreateModel(IDAOFactory daoFactory, IObserver observer)
         {
             this._daoFactory = daoFactory;
             this._userDAO = _daoFactory.CreateUserDAO();
-        }
+            this._observer = observer;
 
+            this._userDAO.AddObserver(_observer);
+        }
 
         public void OnGet()
         {
             Users = _userDAO.GetAll();
         }
-
 
         public void OnPostCreate()
         {

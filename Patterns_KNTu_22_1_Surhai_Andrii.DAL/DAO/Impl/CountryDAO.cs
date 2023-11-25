@@ -8,7 +8,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 {
     public class CountryDAO : ICountryDAO
     {
-        private DAOObserver _observer = new DAOObserver();
+        private List<IObserver> _observers;
         private DatabaseConnection _connection = DatabaseConnection.Instance;
         private MySqlCommand _command;
 
@@ -21,7 +21,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 
         public CountryDAO()
         {
-            _observer.Attach(new Logger());
+            this._observers = new List<IObserver>();
         }
 
 
@@ -35,12 +35,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Name", country.Name);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. Country with name = {country.Name} was CREATED.");
+                Notify($"INFO. Country with name = {country.Name} was CREATED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -55,12 +55,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Id", country.Id);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. Country with country_id = {country.Id} was UPDATED with name = {country.Name}.");
+                Notify($"INFO. Country with country_id = {country.Id} was UPDATED with name = {country.Name}.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -74,12 +74,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Id", id);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. Country with country_id = {id} was DELETED.");
+                Notify($"INFO. Country with country_id = {id} was DELETED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -110,7 +110,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
 
             return country;
@@ -144,10 +144,28 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
 
             return countries;
+        }
+
+        public void AddObserver(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void RemoveObserver(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void Notify(string message)
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update(message);
+            }
         }
     }
 }

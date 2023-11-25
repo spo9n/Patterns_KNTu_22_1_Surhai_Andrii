@@ -2,11 +2,13 @@
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
 
 namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
 {
     public class CreateModel : PageModel
     {
+        private readonly IObserver _observer;
         private readonly IDAOFactory _daoFactory;
         private readonly IOrderDAO _orderDAO;
         private readonly IOrderDetailDAO _orderDetailDAO;
@@ -16,7 +18,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
 
         public Order Order { get; set; }
         public OrderDetail OrderDetail { get; set; }
-
         public List<Order> Orders { get; set; }
         public List<OrderDetail> OrdersDetails { get; set; }
         public List<OrderStatus> OrdersStatuses { get; set; }
@@ -24,7 +25,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
         public List<User> Users { get; set; }
 
 
-        public CreateModel(IDAOFactory daoFactory)
+        public CreateModel(IDAOFactory daoFactory, IObserver observer)
         {
             this._daoFactory = daoFactory;
             this._orderDAO = _daoFactory.CreateOrderDAO();
@@ -32,8 +33,11 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
             this._orderStatusDAO = _daoFactory.CreateOrderStatusDAO();
             this._instrumentDAO = _daoFactory.CreateInstrumentDAO();
             this._userDAO = _daoFactory.CreateUserDAO();
-        }
+            this._observer = observer;
 
+            this._orderDAO.AddObserver(_observer);
+            this._orderDetailDAO.AddObserver(_observer);
+        }
 
         public void OnGet()
         {

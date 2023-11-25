@@ -1,8 +1,9 @@
 ﻿using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
 
 namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces
 {
-    public interface IOrderDetailDAO
+    public interface IOrderDetailDAO : IDAOObservable
     {
         void Create(OrderDetail orderDetail);
         void Update(OrderDetail orderDetail);

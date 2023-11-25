@@ -3,12 +3,13 @@ using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Database;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
+using System;
 
 namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 {
     public class OrderDAO : IOrderDAO
     {
-        private DAOObserver _observer = new DAOObserver();
+        private List<IObserver> _observers;
         private DatabaseConnection _connection = DatabaseConnection.Instance;
         private MySqlCommand _command;
 
@@ -24,7 +25,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 
         public OrderDAO()
         {
-            _observer.Attach(new Logger());
+            this._observers = new List<IObserver>();
         }
 
 
@@ -42,7 +43,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 
                 lastInsertedId = Convert.ToInt32(_command.ExecuteScalar());
 
-                _observer.Notify($"INFO. Order with user_id = {order.UserId}, status_id = {order.StatusId}, " +
+                Notify($"INFO. Order with user_id = {order.UserId}, status_id = {order.StatusId}, " +
                     $"comment = {order.Comment} was CREATED.");
 
                 return lastInsertedId;
@@ -50,7 +51,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
                 return lastInsertedId;
             }
         }
@@ -68,13 +69,13 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Id", order.Id);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. Order with order_id = {order.Id} was UPDATED with user_id = {order.UserId}, " +
+                Notify($"INFO. Order with order_id = {order.Id} was UPDATED with user_id = {order.UserId}, " +
                     $"status_id = {order.StatusId}, comment = {order.Comment}.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -87,12 +88,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.CommandText = _deleteSQL;
                 _command.Parameters.AddWithValue("@Id", id);
                 object result = _command.ExecuteScalar();
-                _observer.Notify($"INFO. Order with order_id = {id} was DELETED.");
+                Notify($"INFO. Order with order_id = {id} was DELETED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -127,7 +128,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
 
             return order;
@@ -165,10 +166,29 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
 
             return orders;
         }
+
+        public void AddObserver(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void RemoveObserver(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void Notify(string message)
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update(message);
+            }
+        }
+
     }
 }

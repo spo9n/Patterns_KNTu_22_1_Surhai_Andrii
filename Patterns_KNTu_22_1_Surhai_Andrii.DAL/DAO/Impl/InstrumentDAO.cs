@@ -8,7 +8,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 {
     public class InstrumentDAO : IInstrumentDAO
     {
-        private DAOObserver _observer = new DAOObserver();
+        private List<IObserver> _observers;
         private DatabaseConnection _connection = DatabaseConnection.Instance;
         private MySqlCommand _command;
 
@@ -23,7 +23,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 
         public InstrumentDAO()
         {
-            _observer.Attach(new Logger());
+            this._observers = new List<IObserver>();
         }
 
 
@@ -44,14 +44,14 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Description", instrument.Description);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. Instrument with name = {instrument.Name}, category_id = {instrument.CategoryId}, " +
+                Notify($"INFO. Instrument with name = {instrument.Name}, category_id = {instrument.CategoryId}, " +
                     $"brand_id = {instrument.BrandId}, country_id = {instrument.CountryId}, year = {instrument.Year}, price = {instrument.Price}, " +
                     $"quantity = {instrument.Quantity}, description = {instrument.Description} was CREATED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -73,14 +73,14 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Id", instrument.Id);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. Instrument with instrument_id = {instrument.Id} was UPDATED with name = {instrument.Name}, category_id = {instrument.CategoryId}, " +
+                Notify($"INFO. Instrument with instrument_id = {instrument.Id} was UPDATED with name = {instrument.Name}, category_id = {instrument.CategoryId}, " +
                     $"brand_id = {instrument.BrandId}, country_id = {instrument.CountryId}, year = {instrument.Year}, price = {instrument.Price}, " +
                     $"quantity = {instrument.Quantity}, description = {instrument.Description}.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -94,12 +94,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Id", id);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. Instrument with instrument_id = {id} was DELETED.");
+                Notify($"INFO. Instrument with instrument_id = {id} was DELETED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -137,7 +137,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
 
             return instrument;
@@ -178,10 +178,28 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
 
             return instruments;
+        }
+
+        public void AddObserver(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void RemoveObserver(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void Notify(string message)
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update(message);
+            }
         }
     }
 }

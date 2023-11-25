@@ -8,7 +8,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 {
     public class CategoryDAO : ICategoryDAO
     {
-        private DAOObserver _observer = new DAOObserver();
+        private List<IObserver> _observers;
         private DatabaseConnection _connection = DatabaseConnection.Instance;
         private MySqlCommand _command;
 
@@ -21,9 +21,8 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 
         public CategoryDAO()
         {
-            _observer.Attach(new Logger());
+            this._observers = new List<IObserver>();
         }
-
 
         public void Create(Category category)
         {
@@ -35,13 +34,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Name", category.Name);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. Category with name = {category.Name} was CREATED.");
+                Notify($"INFO. Category with name = {category.Name} was CREATED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -56,13 +54,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Id", category.Id);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. Category with category_id = {category.Id} was UPDATED with name = {category.Name}.");
+                Notify($"INFO. Category with category_id = {category.Id} was UPDATED with name = {category.Name}.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -76,13 +73,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Id", id);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. Category with category_id = {id} was DELETED.");
+                Notify($"INFO. Category with category_id = {id} was DELETED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -113,8 +109,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
 
             return category;
@@ -148,11 +143,28 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
 
             return categories;
+        }
+
+        public void AddObserver(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void RemoveObserver(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void Notify(string message)
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update(message);
+            }
         }
     }
 }

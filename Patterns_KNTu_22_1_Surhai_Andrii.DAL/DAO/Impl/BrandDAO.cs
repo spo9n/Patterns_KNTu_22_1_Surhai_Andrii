@@ -8,7 +8,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 {
     public class BrandDAO : IBrandDAO
     {
-        private DAOObserver _observer = new DAOObserver();
+        private List<IObserver> _observers;
         private DatabaseConnection _connection = DatabaseConnection.Instance;
         private MySqlCommand _command;
 
@@ -21,9 +21,8 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 
         public BrandDAO()
         {
-            _observer.Attach(new Logger());
+            this._observers = new List<IObserver>();
         }
-        
 
         public void Create(Brand brand)
         {
@@ -35,12 +34,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Name", brand.Name);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. Brand with name = {brand.Name} was CREATED.");
+                Notify($"INFO. Brand with name = {brand.Name} was CREATED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -55,12 +54,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Id", brand.Id);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. Brand with brand_id = {brand.Id} was UDPATED with name = {brand.Name}.");
+                Notify($"INFO. Brand with brand_id = {brand.Id} was UDPATED with name = {brand.Name}.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -74,12 +73,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Id", id);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. Brand with brand_id = {id} was DELETED.");
+                Notify($"INFO. Brand with brand_id = {id} was DELETED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -110,7 +109,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
 
             return brand;
@@ -144,10 +143,29 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
 
             return brands;
         }
+
+        public void AddObserver(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void RemoveObserver(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void Notify(string message)
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update(message);
+            }
+        }
+
     }
 }

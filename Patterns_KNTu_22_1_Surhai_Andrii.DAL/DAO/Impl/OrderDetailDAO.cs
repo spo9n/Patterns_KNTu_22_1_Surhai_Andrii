@@ -8,7 +8,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 {
     public class OrderDetailDAO : IOrderDetailDAO
     {
-        private DAOObserver _observer = new DAOObserver();
+        private List<IObserver> _observers;
         private DatabaseConnection _connection = DatabaseConnection.Instance;
         private MySqlCommand _command;
 
@@ -23,9 +23,8 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 
         public OrderDetailDAO()
         {
-            _observer.Attach(new Logger());
+            this._observers = new List<IObserver>();
         }
-
 
         public void Create(OrderDetail orderDetail)
         {
@@ -40,13 +39,13 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Quantity", orderDetail.Quantity);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. OrderDetail with order_id = {orderDetail.OrderId}, instrument_id = {orderDetail.InstrumentId}, " +
+                Notify($"INFO. OrderDetail with order_id = {orderDetail.OrderId}, instrument_id = {orderDetail.InstrumentId}, " +
                     $"price = {orderDetail.Price}, quantity = {orderDetail.Quantity} was CREATED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -63,13 +62,13 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@InstrumentId", orderDetail.InstrumentId);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. OrderDetail with order_id = {orderDetail.OrderId}, instrument_id = {orderDetail.InstrumentId} was UPDATED with " +
+                Notify($"INFO. OrderDetail with order_id = {orderDetail.OrderId}, instrument_id = {orderDetail.InstrumentId} was UPDATED with " +
                     $"price = {orderDetail.Price}, quantity = {orderDetail.Quantity}.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -83,12 +82,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@OrderId", orderId);
                 object result = _command.ExecuteScalar();
 
-                _observer.Notify($"INFO. OrderDetail with order_id = {orderId} was DELETED.");
+                Notify($"INFO. OrderDetail with order_id = {orderId} was DELETED.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
         }
 
@@ -123,7 +122,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
 
             return ordersDetails;
@@ -159,10 +158,29 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                _observer.Notify($"ERROR. {ex.ToString()}.");
+                Notify($"ERROR. {ex.ToString()}.");
             }
 
             return ordersDetails;
         }
+
+        public void AddObserver(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void RemoveObserver(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void Notify(string message)
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update(message);
+            }
+        }
+
     }
 }
