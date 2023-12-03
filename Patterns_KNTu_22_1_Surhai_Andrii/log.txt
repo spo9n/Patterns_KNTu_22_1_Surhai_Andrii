@@ -163,3 +163,22 @@
 03.12.2023 14:43:43: INFO. Instrument with instrument_id = 2 was UPDATED with name = Bass Guitar 1, category_id = 3, brand_id = 1, country_id = 1, year = 2022, price = 25001, quantity = 5, description = Description.....
 03.12.2023 14:48:21: INFO. Instrument with instrument_id = 3 was UPDATED with name = Electric Guitar 111, category_id = 2, brand_id = 1, country_id = 5, year = 2023, price = 31000, quantity = 3, description = Description.....
 03.12.2023 14:48:26: INFO. Instrument with instrument_id = 3 was UPDATED with name = Electric Guitar 1, category_id = 2, brand_id = 1, country_id = 5, year = 2023, price = 31000, quantity = 3, description = Description.....
+03.12.2023 14:55:19: INFO. Instrument with name = 1231, category_id = 1, brand_id = 3, country_id = 2, year = 2023, price = 12312, quantity = 211, description = 111 was CREATED.
+03.12.2023 14:55:27: INFO. Instrument with instrument_id = 6 was UPDATED with name = 123111333, category_id = 1, brand_id = 3, country_id = 2, year = 2023, price = 12312, quantity = 211, description = 5151.
+03.12.2023 14:55:35: INFO. Instrument with instrument_id = 6 was DELETED.
+03.12.2023 14:55:38: INFO. Instrument with instrument_id = 6 was UPDATED with name = 1231, category_id = 1, brand_id = 3, country_id = 2, year = 2023, price = 12312, quantity = 211, description = 111.
+03.12.2023 15:00:13: INFO. Instrument with name = 124124, category_id = 2, brand_id = 2, country_id = 2, year = 2023, price = 1241, quantity = 1515, description = 511 was CREATED.
+03.12.2023 15:00:29: INFO. Instrument with instrument_id = 7 was UPDATED with name = 44422, category_id = 2, brand_id = 2, country_id = 2, year = 2023, price = 1241, quantity = 1515, description = 511.
+03.12.2023 15:00:41: INFO. Instrument with instrument_id = 7 was UPDATED with name = 44422515, category_id = 2, brand_id = 2, country_id = 2, year = 2023, price = 1241, quantity = 1515, description = 511.
+03.12.2023 15:01:28: INFO. Instrument with instrument_id = 7 was UPDATED with name = 44422, category_id = 2, brand_id = 2, country_id = 2, year = 2023, price = 1241, quantity = 1515, description = 511.
+03.12.2023 15:01:31: ERROR. MySql.Data.MySqlClient.MySqlException (0x80004005): There is already an open DataReader associated with this Connection which must be closed first.
+   at MySql.Data.MySqlClient.Interceptors.ExceptionInterceptor.Throw(Exception exception)
+   at MySql.Data.MySqlClient.MySqlCommand.CheckState()
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQueryAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl.InstrumentDAO.GetAll() in C:\Users\Alienware\source\repos\NURE\Patterns\Patterns_KNTu_22_1_Surhai_Andrii\Patterns_KNTu_22_1_Surhai_Andrii.DAL\DAO\Impl\InstrumentDAO.cs:line 155.
+03.12.2023 15:01:40: INFO. Instrument with instrument_id = 7 was DELETED.
+03.12.2023 15:04:41: INFO. Instrument with name = 12515, category_id = 1, brand_id = 3, country_id = 2, year = 2023, price = 12515, quantity = 5515, description = 1 was CREATED.
+03.12.2023 15:04:46: INFO. Instrument with instrument_id = 8 was UPDATED with name = 125151251, category_id = 1, brand_id = 3, country_id = 2, year = 2023, price = 12515, quantity = 5515, description = 1.
+03.12.2023 15:04:50: INFO. Instrument with instrument_id = 8 was DELETED.

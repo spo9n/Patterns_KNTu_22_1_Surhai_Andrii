@@ -78,11 +78,15 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
             {
                 InstrumentMemento instrumentMemento = InstrumentCaretaker.GetMemento();
 
-                Instrument = new Instrument.Builder().BuildEmpty();
-                Instrument.RestoreMemento(instrumentMemento);
+                if (_instrumentDAO.GetById(instrumentMemento.Id) != null)
+                {
+                    Instrument = new Instrument.Builder().BuildEmpty();
+                    Instrument.RestoreMemento(instrumentMemento);
 
-                _instrumentDAO.Update(Instrument);
+                    _instrumentDAO.Update(Instrument);
+                }
             }
+
             OnGet();
         }
     }
