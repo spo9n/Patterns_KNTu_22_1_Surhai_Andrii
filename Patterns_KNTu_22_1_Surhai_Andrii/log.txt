@@ -81,3 +81,85 @@
 25.11.2023 14:32:20: INFO. Brand with brand_id = 5 was UDPATED with name = ESP.
 25.11.2023 14:32:24: INFO. Category with name = 124141 was CREATED.
 25.11.2023 14:32:29: INFO. Category with category_id = 5 was DELETED.
+30.11.2023 12:47:32: INFO. Brand with brand_id = 5 was UDPATED with name = ESPP.
+30.11.2023 12:51:06: INFO. Brand with brand_id = 5 was UDPATED with name = ESP.
+30.11.2023 12:51:29: INFO. Brand with brand_id = 5 was UDPATED with name = ESP.
+30.11.2023 12:55:47: INFO. Brand with brand_id = 5 was UDPATED with name = ESPP.
+30.11.2023 12:55:51: INFO. Brand with brand_id = 5 was UDPATED with name = ESPP.
+30.11.2023 12:56:02: INFO. Brand with brand_id = 5 was UDPATED with name = ESPPP.
+30.11.2023 12:56:05: INFO. Brand with brand_id = 3 was UDPATED with name = Epiphone.
+30.11.2023 13:30:17: INFO. Brand with brand_id = 5 was UDPATED with name = ESPPPP.
+30.11.2023 13:31:25: INFO. Brand with brand_id = 5 was UDPATED with name = ESPPPP.
+30.11.2023 13:31:29: INFO. Brand with brand_id = 5 was UDPATED with name = ESPPPPP.
+30.11.2023 13:41:17: INFO. Brand with brand_id = 5 was UDPATED with name = ESPPPP.
+30.11.2023 13:41:21: INFO. Brand with brand_id = 5 was UDPATED with name = ESPPPPPPPP.
+30.11.2023 13:41:31: INFO. Brand with brand_id = 5 was UDPATED with name = ESPPPP.
+30.11.2023 13:41:36: INFO. Brand with brand_id = 5 was UDPATED with name = ESPPPPP.
+30.11.2023 13:42:30: INFO. Brand with brand_id = 5 was UDPATED with name = ESPwe.
+30.11.2023 13:42:33: INFO. Brand with brand_id = 3 was UDPATED with name = ESPewqrtt.
+30.11.2023 13:42:37: INFO. Brand with brand_id = 3 was UDPATED with name = ESPpqwrq.
+30.11.2023 13:42:41: INFO. Brand with brand_id = 3 was UDPATED with name = ESPewqrtt.
+30.11.2023 13:42:43: INFO. Brand with brand_id = 3 was UDPATED with name = Epiphone.
+30.11.2023 13:42:55: INFO. Brand with brand_id = 5 was UDPATED with name = ESPPPPP.
+30.11.2023 13:44:06: INFO. Brand with brand_id = 5 was UDPATED with name = ESPPPPPSqwe.
+30.11.2023 13:44:12: INFO. Brand with brand_id = 5 was UDPATED with name = ESPPPPPwwq.
+30.11.2023 13:44:25: INFO. Brand with brand_id = 5 was UDPATED with name = ESPPPPPSqwe.
+30.11.2023 13:44:30: INFO. Brand with brand_id = 5 was UDPATED with name = ESPPPPP.
+30.11.2023 13:45:04: INFO. Brand with brand_id = 3 was UDPATED with name = Epiphonewqqq.
+30.11.2023 13:45:09: INFO. Brand with brand_id = 3 was UDPATED with name = Epiphonewqqq21.
+30.11.2023 13:45:13: INFO. Brand with brand_id = 3 was UDPATED with name = Epiphonewqqq.
+30.11.2023 13:45:16: INFO. Brand with brand_id = 3 was UDPATED with name = Epiphone.
+30.11.2023 13:45:23: INFO. Brand with brand_id = 5 was UDPATED with name = ESP.
+30.11.2023 15:28:06: INFO. Instrument with instrument_id = 2 was UPDATED with name = Bass Guitar 1, category_id = 3, brand_id = 1, country_id = 1, year = 2022, price = 25001, quantity = 5, description = Description.....
+30.11.2023 15:47:38: INFO. Instrument with instrument_id = 2 was UPDATED with name = Bass Guitar 1, category_id = 3, brand_id = 1, country_id = 1, year = 2022, price = 25021, quantity = 5, description = Description.....
+30.11.2023 15:48:21: INFO. Instrument with instrument_id = 2 was UPDATED with name = Bass Guitar 1, category_id = 3, brand_id = 1, country_id = 1, year = 2022, price = 25001, quantity = 5, description = Description.....
+02.12.2023 13:32:55: INFO. Instrument with instrument_id = 2 was UPDATED with name = Bass Guitar 1241241, category_id = 3, brand_id = 1, country_id = 1, year = 2022, price = 20511, quantity = 57, description = 2145Description.....
+02.12.2023 13:33:16: INFO. Instrument with instrument_id = 2 was UPDATED with name = Bass Guitar 1, category_id = 3, brand_id = 1, country_id = 1, year = 2022, price = 25001, quantity = 5, description = Description.....
+02.12.2023 15:06:52: INFO. User with surname = 2512, name = 5152115, patronymic = 15151, email = test4@tqwt.qw, phone = 12515 was CREATED.
+02.12.2023 15:07:30: ERROR. MySql.Data.MySqlClient.MySqlException (0x80004005): Cannot add or update a child row: a foreign key constraint fails (`db_patterns`.`orders`, CONSTRAINT `fk_orders_orders_statuses_status_id` FOREIGN KEY (`status_id`) REFERENCES `orders_statuses` (`status_id`) ON DELETE RESTRICT ON UPDATE RESTRICT)
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync(Boolean execAsync)
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId, Boolean execAsync)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId, Boolean execAsync)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force, Boolean execAsync)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteScalarAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteScalar()
+   at Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl.OrderDAO.Create(Order order) in C:\Users\Alienware\source\repos\NURE\Patterns\Patterns_KNTu_22_1_Surhai_Andrii\Patterns_KNTu_22_1_Surhai_Andrii.DAL\DAO\Impl\OrderDAO.cs:line 44.
+02.12.2023 15:07:30: ERROR. MySql.Data.MySqlClient.MySqlException (0x80004005): Out of range value for column 'order_id' at row 1
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync(Boolean execAsync)
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId, Boolean execAsync)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId, Boolean execAsync)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force, Boolean execAsync)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteScalarAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteScalar()
+   at Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl.OrderDetailDAO.Create(OrderDetail orderDetail) in C:\Users\Alienware\source\repos\NURE\Patterns\Patterns_KNTu_22_1_Surhai_Andrii\Patterns_KNTu_22_1_Surhai_Andrii.DAL\DAO\Impl\OrderDetailDAO.cs:line 40.
+02.12.2023 15:07:31: ERROR. MySql.Data.MySqlClient.MySqlException (0x80004005): Out of range value for column 'order_id' at row 1
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync(Boolean execAsync)
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId, Boolean execAsync)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId, Boolean execAsync)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force, Boolean execAsync)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteScalarAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteScalar()
+   at Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl.OrderDetailDAO.Create(OrderDetail orderDetail) in C:\Users\Alienware\source\repos\NURE\Patterns\Patterns_KNTu_22_1_Surhai_Andrii\Patterns_KNTu_22_1_Surhai_Andrii.DAL\DAO\Impl\OrderDetailDAO.cs:line 40.
+02.12.2023 15:07:45: INFO. OrderStatus with name = 1 was CREATED.
+02.12.2023 15:07:56: INFO. Order with user_id = 1, status_id = 1, comment = 12412 was CREATED.
+02.12.2023 15:07:56: INFO. OrderDetail with order_id = 2, instrument_id = 2, price = 25001, quantity = 12 was CREATED.
+02.12.2023 15:07:56: INFO. OrderDetail with order_id = 2, instrument_id = 4, price = 27500, quantity = 42 was CREATED.
+03.12.2023 14:43:38: INFO. Instrument with instrument_id = 2 was UPDATED with name = Bass Guitar 12, category_id = 3, brand_id = 1, country_id = 1, year = 2022, price = 25001, quantity = 5, description = Description.....
+03.12.2023 14:43:43: INFO. Instrument with instrument_id = 2 was UPDATED with name = Bass Guitar 1, category_id = 3, brand_id = 1, country_id = 1, year = 2022, price = 25001, quantity = 5, description = Description.....
+03.12.2023 14:48:21: INFO. Instrument with instrument_id = 3 was UPDATED with name = Electric Guitar 111, category_id = 2, brand_id = 1, country_id = 5, year = 2023, price = 31000, quantity = 3, description = Description.....
+03.12.2023 14:48:26: INFO. Instrument with instrument_id = 3 was UPDATED with name = Electric Guitar 1, category_id = 2, brand_id = 1, country_id = 5, year = 2023, price = 31000, quantity = 3, description = Description.....

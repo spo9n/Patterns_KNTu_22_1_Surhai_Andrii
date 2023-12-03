@@ -1,4 +1,6 @@
-﻿namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities
+﻿using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Memento;
+
+namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities
 {
     public class Instrument
     {
@@ -15,6 +17,25 @@
         private Instrument()
         {
 
+        }
+
+        public InstrumentMemento CreateMemento()
+        {
+            return new InstrumentMemento(this.Id, this.Name, this.CategoryId, this.BrandId, this.CountryId, 
+                this.Year, this.Price, this.Quantity, this.Description);
+        }
+
+        public void RestoreMemento(InstrumentMemento instrumentMemento)
+        {
+            this.Id = instrumentMemento.Id;
+            this.Name = instrumentMemento.Name;
+            this.CategoryId = instrumentMemento.CategoryId;
+            this.BrandId = instrumentMemento.BrandId;
+            this.CountryId = instrumentMemento.CountryId;
+            this.Year = instrumentMemento.Year;
+            this.Price = instrumentMemento.Price;
+            this.Quantity = instrumentMemento.Quantity;
+            this.Description = instrumentMemento.Description;
         }
 
         public class Builder
@@ -82,6 +103,11 @@
                 {
                     throw new InvalidOperationException("Name and Category are required.");
                 }
+                return instrument;
+            }
+
+            public Instrument BuildEmpty()
+            {
                 return instrument;
             }
         }

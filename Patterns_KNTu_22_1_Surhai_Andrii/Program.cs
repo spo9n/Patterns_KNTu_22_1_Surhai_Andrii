@@ -1,6 +1,7 @@
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Memento;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,8 @@ builder.Services.AddTransient<IOrderDetailDAO, OrderDetailDAO>();
 builder.Services.AddTransient<IOrderStatusDAO, OrderStatusDAO>();
 builder.Services.AddTransient<IUserDAO, UserDAO>();
 builder.Services.AddTransient<IObserver>(provider => new Observer("log.txt"));
+
+builder.Services.AddSingleton<InstrumentCaretaker>();
 
 
 var app = builder.Build();
