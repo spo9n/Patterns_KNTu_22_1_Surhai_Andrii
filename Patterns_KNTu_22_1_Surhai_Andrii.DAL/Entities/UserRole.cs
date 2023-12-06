@@ -1,39 +1,39 @@
 ﻿namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities
 {
-    public class Brand
+    public class UserRole
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = "Guest";
 
 
-        private Brand()
+        private UserRole()
         {
 
         }
 
         public class Builder
         {
-            private Brand brand = new Brand();
+            private UserRole _userRole = new UserRole();
 
             public Builder WithId(int id)
             {
-                brand.Id = id;
+                _userRole.Id = id;
                 return this;
             }
 
             public Builder WithName(string name)
             {
-                brand.Name = name;
+                _userRole.Name = name;
                 return this;
             }
 
-            public Brand Build()
+            public UserRole Build()
             {
-                if (string.IsNullOrEmpty(brand.Name))
+                if (string.IsNullOrEmpty(_userRole.Name))
                 {
-                    throw new InvalidOperationException("Name is required.");
+                    throw new InvalidOperationException("Field Name is required.");
                 }
-                return brand;
+                return _userRole;
             }
         }
     }

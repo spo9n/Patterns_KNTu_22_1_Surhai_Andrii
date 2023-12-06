@@ -15,7 +15,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.Database
             _connection = new MySqlConnection(_connectionString);
         }
 
-
         public static DatabaseConnection Instance
         {
             get
@@ -28,7 +27,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.Database
                 return _instance;
             }
         }
-
 
         public MySqlConnection GetConnection()
         {
@@ -50,7 +48,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.Database
 
             return _connection;
         }
-
 
         public void CloseConnection()
         {

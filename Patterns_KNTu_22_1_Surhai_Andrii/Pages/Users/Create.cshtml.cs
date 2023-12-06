@@ -11,33 +11,44 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Users
         private readonly IObserver _observer;
         private readonly IDAOFactory _daoFactory;
         private readonly IUserDAO _userDAO;
+        private readonly IUserRoleDAO _userRoleDAO;
 
         public User User { get; set; }
         public List<User> Users { get; set; }
+        public List<UserRole> UsersRoles { get; set; }
 
 
         public CreateModel(IDAOFactory daoFactory, IObserver observer)
         {
             this._daoFactory = daoFactory;
             this._userDAO = _daoFactory.CreateUserDAO();
+            this._userRoleDAO = _daoFactory.CreateUserRoleDAO();
             this._observer = observer;
-
             this._userDAO.AddObserver(_observer);
         }
 
         public void OnGet()
         {
             Users = _userDAO.GetAll();
+            UsersRoles = _userRoleDAO.GetAll();
         }
 
         public void OnPostCreate()
         {
+            int userRoleId = Convert.ToInt32(Request.Form["user_role_id"]);
+            string surname = Convert.ToString(Request.Form["surname"]);
+            string name = Convert.ToString(Request.Form["name"]);
+            string patronymic = Convert.ToString(Request.Form["patronymic"]);
+            string email = Convert.ToString(Request.Form["email"]);
+            string phone = Convert.ToString(Request.Form["phone"]);
+
             User = new User.Builder()
-                .WithSurname(Convert.ToString(Request.Form["surname"]))
-                .WithName(Convert.ToString(Request.Form["name"]))
-                .WithPatronymic(Convert.ToString(Request.Form["patronymic"]))
-                .WithEmail(Convert.ToString(Request.Form["email"]))
-                .WithPhone(Convert.ToString(Request.Form["phone"]))
+                .WithUserRoleId(userRoleId)
+                .WithSurname(surname)
+                .WithName(name)
+                .WithPatronymic(patronymic)
+                .WithEmail(email)
+                .WithPhone(phone)
                 .Build();
 
             _userDAO.Create(User);

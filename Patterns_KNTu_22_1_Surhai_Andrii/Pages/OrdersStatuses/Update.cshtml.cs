@@ -21,7 +21,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.OrdersStatuses
             this._daoFactory = daoFactory;
             this._orderStatusDAO = _daoFactory.CreateOrderStatusDAO();
             this._observer = observer;
-
             this._orderStatusDAO.AddObserver(_observer);
         }
 
@@ -32,9 +31,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.OrdersStatuses
 
         public void OnPostUpdate()
         {
+            int id = Convert.ToInt32(Request.Form["status_id"]);
+            string name = Convert.ToString(Request.Form["name"]);
+
             OrderStatus = new OrderStatus.Builder()
-                .WithId(Convert.ToInt32(Request.Form["status_id"]))
-                .WithName(Convert.ToString(Request.Form["name"]))
+                .WithId(id)
+                .WithName(name)
                 .Build();
 
             _orderStatusDAO.Update(OrderStatus);

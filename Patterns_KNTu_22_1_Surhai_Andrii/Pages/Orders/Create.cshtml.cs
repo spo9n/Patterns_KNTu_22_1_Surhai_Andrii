@@ -34,7 +34,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
             this._instrumentDAO = _daoFactory.CreateInstrumentDAO();
             this._userDAO = _daoFactory.CreateUserDAO();
             this._observer = observer;
-
             this._orderDAO.AddObserver(_observer);
             this._orderDetailDAO.AddObserver(_observer);
         }
@@ -50,10 +49,14 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
 
         public void OnPostCreate()
         {
+            int userId = Convert.ToInt32(Request.Form["user_id"]);
+            int statusId = 1;
+            string comment = Convert.ToString(Request.Form["comment"]);
+
             Order = new Order.Builder()
-                .WithUserId(Convert.ToInt32(Request.Form["user_id"]))
-                .WithStatusId(1)
-                .WithComment(Convert.ToString(Request.Form["comment"]))
+                .WithUserId(userId)
+                .WithStatusId(statusId)
+                .WithComment(comment)
                 .Build();
 
             int orderId = _orderDAO.Create(Order);

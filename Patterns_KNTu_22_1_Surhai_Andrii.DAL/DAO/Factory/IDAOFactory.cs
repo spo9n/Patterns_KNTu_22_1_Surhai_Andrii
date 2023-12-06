@@ -12,5 +12,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory
         IOrderDetailDAO CreateOrderDetailDAO();
         IOrderStatusDAO CreateOrderStatusDAO();
         IUserDAO CreateUserDAO();
+        IUserRoleDAO CreateUserRoleDAO();
     }
 }

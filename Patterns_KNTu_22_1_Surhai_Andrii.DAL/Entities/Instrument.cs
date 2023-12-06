@@ -14,6 +14,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities
         public int Quantity { get; set; }
         public string Description { get; set; }
 
+
         private Instrument()
         {
 

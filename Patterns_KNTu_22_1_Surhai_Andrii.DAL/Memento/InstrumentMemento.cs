@@ -12,6 +12,7 @@
         public int Quantity { get; private set; }
         public string Description { get; private set; }
 
+
         public InstrumentMemento(int id, string name, int categoryId, int brandId, int countryId, int year, double price, int quantity, string description)
         {
             this.Id = id;

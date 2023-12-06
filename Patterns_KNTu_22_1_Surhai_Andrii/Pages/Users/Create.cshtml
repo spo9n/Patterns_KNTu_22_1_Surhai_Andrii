@@ -13,6 +13,16 @@
         <input type="text" id="surname" name="surname" required>
         <br>
 
+        <label for="user_role_id" class="col-form-label">User Role:</label>
+        <select id="user_role_id" name="user_role_id" class="form-select-sm" required>
+            @foreach (var userRole in Model.UsersRoles)
+            {
+                <option value="@userRole.Id">@userRole.Name</option>
+            }
+        </select>
+        <br>
+
+
         <label for="name" class="col-form-label">Name:</label>
         <input type="text" id="name" name="name" required>
         <br>

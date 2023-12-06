@@ -6,44 +6,35 @@ using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
 
 namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 {
-    public class UserDAO : IUserDAO
+    public class UserRoleDAO : IUserRoleDAO
     {
         private List<IObserver> _observers;
         private DatabaseConnection _connection = DatabaseConnection.Instance;
         private MySqlCommand _command;
 
-        private const string _insertSQL = "INSERT INTO users(user_role_id, surname, name, patronymic, email, phone) " +
-            "VALUES (@UserRoleId, @Surname, @Name, @Patronymic, @Email, @Phone);";
-        private const string _updateSQL = "UPDATE users SET user_role_id = @UserRoleId, surname = @Surname, name = @Name, patronymic = @Patronymic, email = @Email, phone = @Phone " +
-            "WHERE user_id = @Id;";
-        private const string _deleteSQL = "DELETE FROM users WHERE user_id = @Id;";
-        private const string _selectByIdSQL = "SELECT * FROM users WHERE user_id = @id;";
-        private const string _selectAllSQL = "SELECT * FROM users;";
+        private const string _insertSQL = "INSERT INTO users_roles(name) VALUES (@Name);";
+        private const string _updateSQL = "UPDATE users_roles SET name = @Name WHERE user_role_id = @Id;";
+        private const string _deleteSQL = "DELETE FROM users_roles WHERE user_role_id = @Id;";
+        private const string _selectByIdSQL = "SELECT * FROM users_roles WHERE user_role_id = @Id;";
+        private const string _selectAllSQL = "SELECT * FROM users_roles;";
 
 
-        public UserDAO()
+        public UserRoleDAO()
         {
             this._observers = new List<IObserver>();
         }
 
-
-        public void Create(User user)
+        public void Create(UserRole userRole)
         {
             try
             {
                 _connection.GetConnection();
                 _command = _connection.GetConnection().CreateCommand();
                 _command.CommandText = _insertSQL;
-                _command.Parameters.AddWithValue("@UserRoleId", user.UserRoleId);
-                _command.Parameters.AddWithValue("@Surname", user.Surname);
-                _command.Parameters.AddWithValue("@Name", user.Name);
-                _command.Parameters.AddWithValue("@Patronymic", user.Patronymic);
-                _command.Parameters.AddWithValue("@Email", user.Email);
-                _command.Parameters.AddWithValue("@Phone", user.Phone);
+                _command.Parameters.AddWithValue("@Name", userRole.Name);
                 object result = _command.ExecuteScalar();
 
-                Notify($"INFO. User with user_role_id = {user.UserRoleId}, surname = {user.Surname}, name = {user.Name}, patronymic = {user.Patronymic}, " +
-                    $"email = {user.Email}, phone = {user.Phone} was CREATED.");
+                Notify($"INFO. User Role with name = {userRole.Name} was CREATED.");
             }
             catch (Exception ex)
             {
@@ -52,24 +43,18 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             }
         }
 
-        public void Update(User user)
+        public void Update(UserRole userRole)
         {
             try
             {
                 _connection.GetConnection();
                 _command = _connection.GetConnection().CreateCommand();
                 _command.CommandText = _updateSQL;
-                _command.Parameters.AddWithValue("@UserRoleId", user.UserRoleId);
-                _command.Parameters.AddWithValue("@Surname", user.Surname);
-                _command.Parameters.AddWithValue("@Name", user.Name);
-                _command.Parameters.AddWithValue("@Patronymic", user.Patronymic);
-                _command.Parameters.AddWithValue("@Email", user.Email);
-                _command.Parameters.AddWithValue("@Phone", user.Phone);
-                _command.Parameters.AddWithValue("@Id", user.Id);
+                _command.Parameters.AddWithValue("@Name", userRole.Name);
+                _command.Parameters.AddWithValue("@Id", userRole.Id);
                 object result = _command.ExecuteScalar();
 
-                Notify($"INFO. User with user_id = {user.Id} was UPDATED with user_role_id = {user.UserRoleId}, surname = {user.Surname}, name = {user.Name}, " +
-                    $"patronymic = {user.Patronymic}, email = {user.Email}, phone = {user.Phone}.");
+                Notify($"INFO. User Role with user_role_id = {userRole.Id} was UPDATED with name = {userRole.Name}.");
             }
             catch (Exception ex)
             {
@@ -88,7 +73,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Id", id);
                 object result = _command.ExecuteScalar();
 
-                Notify($"INFO. User with user_id = {id} was DELETED.");
+                Notify($"INFO. User Role with user_role_id = {id} was DELETED.");
             }
             catch (Exception ex)
             {
@@ -97,9 +82,9 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             }
         }
 
-        public User GetById(int id)
+        public UserRole GetById(int id)
         {
-            User user = null;
+            UserRole userRole = null;
             try
             {
                 _connection.GetConnection();
@@ -112,14 +97,9 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 
                 if (dataReader.Read())
                 {
-                    user = new User.Builder()
+                    userRole = new UserRole.Builder()
                         .WithId(Convert.ToInt32(dataReader.GetValue(0)))
-                        .WithUserRoleId(Convert.ToInt32(dataReader.GetValue(1)))
-                        .WithSurname(Convert.ToString(dataReader.GetValue(2)))
-                        .WithName(Convert.ToString(dataReader.GetValue(3)))
-                        .WithPatronymic(Convert.ToString(dataReader.GetValue(4)))
-                        .WithEmail(Convert.ToString(dataReader.GetValue(5)))
-                        .WithPhone(Convert.ToString(dataReader.GetValue(6)))
+                        .WithName(Convert.ToString(dataReader.GetValue(1)))
                         .Build();
                 }
 
@@ -132,13 +112,13 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 Notify($"ERROR. {ex.ToString()}.");
             }
 
-            return user;
+            return userRole;
         }
 
-        public List<User> GetAll()
+        public List<UserRole> GetAll()
         {
-            List<User> users = new List<User>();
-            User user = null;
+            List<UserRole> usersRoles = new List<UserRole>();
+            UserRole userRole = null;
             try
             {
                 _connection.GetConnection();
@@ -150,16 +130,11 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
 
                 while (dataReader.Read())
                 {
-                    user = new User.Builder()
+                    userRole = new UserRole.Builder()
                         .WithId(Convert.ToInt32(dataReader.GetValue(0)))
-                        .WithUserRoleId(Convert.ToInt32(dataReader.GetValue(1)))
-                        .WithSurname(Convert.ToString(dataReader.GetValue(2)))
-                        .WithName(Convert.ToString(dataReader.GetValue(3)))
-                        .WithPatronymic(Convert.ToString(dataReader.GetValue(4)))
-                        .WithEmail(Convert.ToString(dataReader.GetValue(5)))
-                        .WithPhone(Convert.ToString(dataReader.GetValue(6)))
+                        .WithName(Convert.ToString(dataReader.GetValue(1)))
                         .Build();
-                    users.Add(user);
+                    usersRoles.Add(userRole);
                 }
 
                 dataReader.Close();
@@ -171,7 +146,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 Notify($"ERROR. {ex.ToString()}.");
             }
 
-            return users;
+            return usersRoles;
         }
 
         public void AddObserver(IObserver observer)
@@ -191,6 +166,5 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 observer.Update(message);
             }
         }
-
     }
 }

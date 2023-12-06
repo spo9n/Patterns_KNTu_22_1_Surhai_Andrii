@@ -21,7 +21,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Countries
             this._daoFactory = daoFactory;
             this._countryDAO = _daoFactory.CreateCountryDAO();
             this._observer = observer;
-
             this._countryDAO.AddObserver(_observer);
         }
 
@@ -32,9 +31,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Countries
 
         public void OnPostUpdate()
         {
+            int id = Convert.ToInt32(Request.Form["country_id"]);
+            string name = Convert.ToString(Request.Form["name"]);
+
             Country = new Country.Builder()
-                .WithId(Convert.ToInt32(Request.Form["country_id"]))
-                .WithName(Convert.ToString(Request.Form["name"]))
+                .WithId(id)
+                .WithName(name)
                 .Build();
 
             _countryDAO.Update(Country);

@@ -21,7 +21,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Countries
             this._daoFactory = daoFactory;
             this._countryDAO = _daoFactory.CreateCountryDAO();
             this._observer = observer;
-
             this._countryDAO.AddObserver(_observer);
         }
 
@@ -32,8 +31,10 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Countries
 
         public void OnPostCreate()
         {
+            string name = Convert.ToString(Request.Form["name"]);
+
             Country = new Country.Builder()
-                .WithName(Convert.ToString(Request.Form["name"]))
+                .WithName(name)
                 .Build();
 
             _countryDAO.Create(Country);

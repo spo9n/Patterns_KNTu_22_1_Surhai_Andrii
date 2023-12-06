@@ -4,6 +4,7 @@
     {
         public Stack<InstrumentMemento> Mementos { get; private set; }
 
+
         public InstrumentCaretaker()
         {
             Mementos = new Stack<InstrumentMemento>();

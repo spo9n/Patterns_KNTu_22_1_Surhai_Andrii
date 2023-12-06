@@ -36,7 +36,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
             this._instrumentDAO = _daoFactory.CreateInstrumentDAO();
             this._userDAO = _daoFactory.CreateUserDAO();
             this._observer = observer;
-
             this._orderDAO.AddObserver(_observer);
             this._orderDetailDAO.AddObserver(_observer);
         }
@@ -53,6 +52,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
         public void OnPostDelete()
         {
             int id = Convert.ToInt32(Request.Form["order_id_delete"]);
+
             _orderDAO.Delete(id);
 
             OnGet();

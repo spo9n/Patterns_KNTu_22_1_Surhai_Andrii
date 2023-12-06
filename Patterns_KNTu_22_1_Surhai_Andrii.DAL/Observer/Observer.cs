@@ -10,7 +10,6 @@
             this.filePath = filePath;
         }
 
-
         public void Update(string message)
         {
             try

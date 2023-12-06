@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
-using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
@@ -23,7 +22,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Users
             this._daoFactory = daoFactory;
             this._userDAO = _daoFactory.CreateUserDAO();
             this._observer = observer;
-
             this._userDAO.AddObserver(_observer);
         }
 
@@ -35,6 +33,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Users
         public void OnPostDelete()
         {
             int id = Convert.ToInt32(Request.Form["user_id_delete"]);
+
             _userDAO.Delete(id);
 
             OnGet();

@@ -3,9 +3,7 @@
     public interface IDAOObservable
     {
         void AddObserver(IObserver observer);
-
         void RemoveObserver(IObserver observer);
-
         void Notify(string message);
     }
 }

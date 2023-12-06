@@ -44,5 +44,10 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory
         {
             return new UserDAO();
         }
+
+        public IUserRoleDAO CreateUserRoleDAO()
+        {
+            return new UserRoleDAO();
+        }
     }
 }

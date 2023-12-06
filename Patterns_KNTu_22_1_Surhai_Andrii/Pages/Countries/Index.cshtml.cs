@@ -22,7 +22,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Countries
             this._daoFactory = daoFactory;
             this._countryDAO = _daoFactory.CreateCountryDAO();
             this._observer = observer;
-
             this._countryDAO.AddObserver(_observer);
         }
 
@@ -34,6 +33,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Countries
         public void OnPostDelete()
         {
             int id = Convert.ToInt32(Request.Form["country_id_delete"]);
+
             _countryDAO.Delete(id);
 
             OnGet();

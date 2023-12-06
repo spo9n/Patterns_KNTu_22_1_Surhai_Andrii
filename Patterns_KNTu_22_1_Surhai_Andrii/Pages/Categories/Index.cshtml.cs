@@ -22,7 +22,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Categories
             this._daoFactory = daoFactory;
             this._categoryDAO = _daoFactory.CreateCategoryDAO();
             this._observer = observer;
-
             this._categoryDAO.AddObserver(_observer);
         }
 
@@ -34,6 +33,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Categories
         public void OnPostDelete()
         {
             int id = Convert.ToInt32(Request.Form["category_id_delete"]);
+
             _categoryDAO.Delete(id);
 
             OnGet();

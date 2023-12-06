@@ -19,6 +19,7 @@ builder.Services.AddTransient<IOrderDAO, OrderDAO>();
 builder.Services.AddTransient<IOrderDetailDAO, OrderDetailDAO>();
 builder.Services.AddTransient<IOrderStatusDAO, OrderStatusDAO>();
 builder.Services.AddTransient<IUserDAO, UserDAO>();
+builder.Services.AddTransient<IUserRoleDAO, UserRoleDAO>();
 builder.Services.AddTransient<IObserver>(provider => new Observer("log.txt"));
 
 builder.Services.AddSingleton<InstrumentCaretaker>();

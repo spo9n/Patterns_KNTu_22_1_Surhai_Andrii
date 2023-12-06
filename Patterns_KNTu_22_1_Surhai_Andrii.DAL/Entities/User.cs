@@ -3,11 +3,13 @@
     public class User
     {
         public int Id { get; set; }
+        public int UserRoleId { get; set; }
         public string Surname { get; set; }
         public string Name { get; set; }
         public string Patronymic { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+
 
         private User()
         {
@@ -21,6 +23,12 @@
             public Builder WithId(int id)
             {
                 user.Id = id;
+                return this;
+            }
+
+            public Builder WithUserRoleId(int userRoleid)
+            {
+                user.UserRoleId = userRoleid;
                 return this;
             }
 
@@ -56,7 +64,7 @@
 
             public User Build()
             {
-                if (string.IsNullOrEmpty(user.Surname) || string.IsNullOrEmpty(user.Name) || string.IsNullOrEmpty(user.Patronymic) ||
+                if (user.UserRoleId == null || string.IsNullOrEmpty(user.Surname) || string.IsNullOrEmpty(user.Name) || string.IsNullOrEmpty(user.Patronymic) ||
                     string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Phone))
                 {
                     throw new InvalidOperationException("Fields are required.");

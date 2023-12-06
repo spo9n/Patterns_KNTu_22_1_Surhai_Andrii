@@ -21,7 +21,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Categories
             this._daoFactory = daoFactory;
             this._categoryDAO = _daoFactory.CreateCategoryDAO();
             this._observer = observer;
-
             this._categoryDAO.AddObserver(_observer);
         }
 
@@ -32,9 +31,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Categories
 
         public void OnPostUpdate()
         {
+            int id = Convert.ToInt32(Request.Form["category_id"]);
+            string name = Convert.ToString(Request.Form["name"]);
+
             Category = new Category.Builder()
-                .WithId(Convert.ToInt32(Request.Form["category_id"]))
-                .WithName(Convert.ToString(Request.Form["name"]))
+                .WithId(id)
+                .WithName(name)
                 .Build();
 
             _categoryDAO.Update(Category);

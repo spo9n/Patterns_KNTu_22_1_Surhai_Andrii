@@ -21,7 +21,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Categories
             this._daoFactory = daoFactory;
             this._categoryDAO = _daoFactory.CreateCategoryDAO();
             this._observer = observer;
-
             this._categoryDAO.AddObserver(_observer);
         }
 
@@ -32,8 +31,10 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Categories
 
         public void OnPostCreate()
         {
+            string name = Convert.ToString(Request.Form["name"]);
+
             Category = new Category.Builder()
-                .WithName(Convert.ToString(Request.Form["name"]))
+                .WithName(name)
                 .Build();
 
             _categoryDAO.Create(Category);

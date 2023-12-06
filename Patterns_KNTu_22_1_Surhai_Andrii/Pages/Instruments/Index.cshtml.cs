@@ -31,7 +31,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
             this._brandDAO = _daoFactory.CreateBrandDAO();
             this._countryDAO = _daoFactory.CreateCountryDAO();
             this._observer = observer;
-
             this._instrumentDAO.AddObserver(_observer);
         }
 
@@ -46,6 +45,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
         public void OnPostDelete()
         {
             int id = Convert.ToInt32(Request.Form["instrument_id_delete"]);
+
             _instrumentDAO.Delete(id);
 
             OnGet();

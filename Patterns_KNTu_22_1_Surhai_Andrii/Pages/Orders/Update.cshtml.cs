@@ -27,7 +27,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
             this._orderStatusDAO = _daoFactory.CreateOrderStatusDAO();
             this._userDAO = _daoFactory.CreateUserDAO();
             this._observer = observer;
-
             this._orderDAO.AddObserver(_observer);
         }
 
@@ -40,11 +39,16 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Orders
 
         public void OnPostUpdate()
         {
+            int id = Convert.ToInt32(Request.Form["order_id"]);
+            int userId = Convert.ToInt32(Request.Form["user_id"]);
+            int statusId = Convert.ToInt32(Request.Form["status_id"]);
+            string comment = Convert.ToString(Request.Form["comment"]);
+
             Order = new Order.Builder()
-                .WithId(Convert.ToInt32(Request.Form["order_id"]))
-                .WithUserId(Convert.ToInt32(Request.Form["user_id"]))
-                .WithStatusId(Convert.ToInt32(Request.Form["status_id"]))
-                .WithComment(Convert.ToString(Request.Form["comment"]))
+                .WithId(id)
+                .WithUserId(userId)
+                .WithStatusId(statusId)
+                .WithComment(comment)
                 .Build();
 
             _orderDAO.Update(Order);

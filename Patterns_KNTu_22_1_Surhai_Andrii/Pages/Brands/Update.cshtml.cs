@@ -21,7 +21,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Brands
             this._daoFactory = daoFactory;
             this._brandDAO = _daoFactory.CreateBrandDAO();
             this._observer = observer;
-
             this._brandDAO.AddObserver(_observer);
         }
 
@@ -32,9 +31,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Brands
 
         public void OnPostUpdate()
         {
+            int id = Convert.ToInt32(Request.Form["brand_id"]);
+            string name = Convert.ToString(Request.Form["name"]);
+
             Brand = new Brand.Builder()
-                .WithId(Convert.ToInt32(Request.Form["brand_id"]))
-                .WithName(Convert.ToString(Request.Form["name"]))
+                .WithId(id)
+                .WithName(name)
                 .Build();
 
             _brandDAO.Update(Brand);

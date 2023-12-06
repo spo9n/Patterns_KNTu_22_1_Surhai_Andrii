@@ -24,7 +24,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
         public InstrumentCaretaker InstrumentCaretaker { get; private set; }
 
 
-
         public UpdateModel(IDAOFactory daoFactory, IObserver observer, InstrumentCaretaker instrumentCaretaker)
         {
             this._daoFactory = daoFactory;
@@ -32,10 +31,8 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
             this._categoryDAO = _daoFactory.CreateCategoryDAO();
             this._brandDAO = _daoFactory.CreateBrandDAO();
             this._countryDAO = _daoFactory.CreateCountryDAO();
-
             this._observer = observer;
             this._instrumentDAO.AddObserver(_observer);
-
             this.InstrumentCaretaker = instrumentCaretaker;
         }
 
@@ -49,22 +46,30 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
 
         public void OnPostUpdate()
         {
-            int instrumentId = Convert.ToInt32(Request.Form["instrument_id"]);
-            Instrument instrumentBeforeUpdate = _instrumentDAO.GetById(instrumentId);
+            int id = Convert.ToInt32(Request.Form["instrument_id"]);
+            string name = Convert.ToString(Request.Form["name"]);
+            int categoryId = Convert.ToInt32(Request.Form["category_id"]);
+            int brandId = Convert.ToInt32(Request.Form["brand_id"]);
+            int countryId = Convert.ToInt32(Request.Form["country_id"]);
+            int year = Convert.ToInt32(Request.Form["year"]);
+            double price = Convert.ToDouble(Request.Form["price"]);
+            int quantity = Convert.ToInt32(Request.Form["quantity"]);
+            string description = Convert.ToString(Request.Form["description"]);
 
+            Instrument instrumentBeforeUpdate = _instrumentDAO.GetById(id);
             InstrumentMemento instrumentMemento = instrumentBeforeUpdate.CreateMemento();
             InstrumentCaretaker.AddMemento(instrumentMemento);
 
             Instrument = new Instrument.Builder()
-                .WithId(Convert.ToInt32(Request.Form["instrument_id"]))
-                .WithName(Convert.ToString(Request.Form["name"]))
-                .WithCategoryId(Convert.ToInt32(Request.Form["category_id"]))
-                .WithBrandId(Convert.ToInt32(Request.Form["brand_id"]))
-                .WithCountryId(Convert.ToInt32(Request.Form["country_id"]))
-                .WithYear(Convert.ToInt32(Request.Form["year"]))
-                .WithPrice(Convert.ToDouble(Request.Form["price"]))
-                .WithQuantity(Convert.ToInt32(Request.Form["quantity"]))
-                .WithDescription(Convert.ToString(Request.Form["description"]))
+                .WithId(id)
+                .WithName(name)
+                .WithCategoryId(categoryId)
+                .WithBrandId(brandId)
+                .WithCountryId(countryId)
+                .WithYear(year)
+                .WithPrice(price)
+                .WithQuantity(quantity)
+                .WithDescription(description)
                 .Build();
 
             _instrumentDAO.Update(Instrument);
@@ -80,10 +85,9 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
 
                 if (_instrumentDAO.GetById(instrumentMemento.Id) != null)
                 {
-                    Instrument = new Instrument.Builder().BuildEmpty();
-                    Instrument.RestoreMemento(instrumentMemento);
-
-                    _instrumentDAO.Update(Instrument);
+                    Instrument restoredInstrument = new Instrument.Builder().BuildEmpty();
+                    restoredInstrument.RestoreMemento(instrumentMemento);
+                    _instrumentDAO.Update(restoredInstrument);
                 }
             }
 
