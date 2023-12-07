@@ -116,7 +116,7 @@ CREATE TABLE `instruments` (
   CONSTRAINT `fk_instruments_brands_brand_id` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`brand_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_instruments_categories_category_id` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_instruments_countries_country_id` FOREIGN KEY (`country_id`) REFERENCES `countries` (`country_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +125,7 @@ CREATE TABLE `instruments` (
 
 LOCK TABLES `instruments` WRITE;
 /*!40000 ALTER TABLE `instruments` DISABLE KEYS */;
-INSERT INTO `instruments` VALUES (1,'Acoustic Guitar 1',1,5,4,2020,14500.00,10,'Description....'),(2,'Bass Guitar 1',3,1,1,2022,25001.00,5,'Description....'),(3,'Electric Guitar 1',2,1,5,2023,31000.00,3,'Description....'),(4,'Electric Guitar 2',2,2,1,2020,27500.00,5,'Description....'),(5,'Acoustic Guitar 2',1,2,5,2020,25500.00,4,'Description....');
+INSERT INTO `instruments` VALUES (2,'Bass Guitar 1',3,1,1,2022,25001.00,5,'Description....'),(3,'Electric Guitar 1',2,1,5,2023,31000.00,3,'Description....'),(4,'Electric Guitar 2',2,2,1,2020,27500.00,5,'Description....'),(5,'Acoustic Guitar 2',1,2,5,2020,25500.00,4,'Description....'),(9,'Acoustic Guitar 5',1,3,2,2023,12500.00,4,'Description....');
 /*!40000 ALTER TABLE `instruments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,12 +228,15 @@ CREATE TABLE `users` (
   `patronymic` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `phone` varchar(13) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `phone_UNIQUE` (`phone`),
   UNIQUE KEY `email_UNIQUE` (`email`),
+  UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `fk_users_users_roles_user_role_id` (`user_role_id`),
   CONSTRAINT `fk_users_users_roles_user_role_id` FOREIGN KEY (`user_role_id`) REFERENCES `users_roles` (`user_role_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -242,6 +245,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,2,'1241','12414','1515','12515@1151.12','15151','123','123'),(2,1,'5166','1515','5151','15125@1251.24','1241414','321','321'),(4,1,'Петров','Петро','Петрович','petrov.petrovich@gmail.com','+380669898095','petrovich2134','123321');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -266,7 +270,7 @@ CREATE TABLE `users_roles` (
 
 LOCK TABLES `users_roles` WRITE;
 /*!40000 ALTER TABLE `users_roles` DISABLE KEYS */;
-INSERT INTO `users_roles` VALUES (3,'Admin'),(1,'Guest'),(2,'User');
+INSERT INTO `users_roles` VALUES (2,'Admin'),(1,'User');
 /*!40000 ALTER TABLE `users_roles` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -279,4 +283,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-12-06 12:27:53
+-- Dump completed on 2023-12-07 17:34:40
