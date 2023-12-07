@@ -1,0 +1,34 @@
+﻿@page
+@model Patterns_KNTu_22_1_Surhai_Andrii.Pages.LoginModel
+@{
+    ViewData["Title"] = "Authorization";
+}
+
+<div>
+    <h2>
+        <p>AUTHORIZATION</p>
+    </h2>
+    <form method="POST">
+        <label for="username" class="col-form-label">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+
+        <label for="password" class="col-form-label">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    @if (Model.ModelState.ErrorCount > 0)
+    {
+        <div class="alert alert-danger mt-3" role="alert">
+            @foreach (var modelState in Model.ModelState.Values)
+            {
+                foreach (var error in modelState.Errors)
+                {
+                    <p>@error.ErrorMessage</p>
+                }
+            }
+        </div>
+    }
+</div>

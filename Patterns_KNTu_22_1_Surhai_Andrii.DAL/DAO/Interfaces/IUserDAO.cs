@@ -9,6 +9,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces
         void Update(User user);
         void Delete(int id);
         User GetById(int id);
+        User GetByUsername(string username);
         List<User> GetAll();
     }
 }

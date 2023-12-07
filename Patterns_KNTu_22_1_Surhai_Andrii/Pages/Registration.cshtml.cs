@@ -1,12 +1,12 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Observer;
 
-namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Users
+namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages
 {
-    public class CreateModel : PageModel
+    public class RegistrationModel : PageModel
     {
         private readonly IObserver _observer;
         private readonly IDAOFactory _daoFactory;
@@ -18,18 +18,18 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Users
         public List<UserRole> UsersRoles { get; set; }
 
 
-        public CreateModel(IDAOFactory daoFactory, IObserver observer)
+        public RegistrationModel(IDAOFactory daoFactory, IObserver observer)
         {
-            this._daoFactory = daoFactory;
-            this._userDAO = _daoFactory.CreateUserDAO();
-            this._userRoleDAO = _daoFactory.CreateUserRoleDAO();
-            this._observer = observer;
-            this._userDAO.AddObserver(_observer);
+            _daoFactory = daoFactory;
+            _userDAO = _daoFactory.CreateUserDAO();
+            _userRoleDAO = _daoFactory.CreateUserRoleDAO();
+            _observer = observer;
+            _userDAO.AddObserver(_observer);
+            _userRoleDAO.AddObserver(_observer);
         }
 
         public void OnGet()
         {
-            Users = _userDAO.GetAll();
             UsersRoles = _userRoleDAO.GetAll();
         }
 

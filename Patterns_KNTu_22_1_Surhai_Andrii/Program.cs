@@ -9,6 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddTransient<IDAOFactory, DAOFactory>();
 builder.Services.AddTransient<IBrandDAO, BrandDAO>();
@@ -21,8 +27,8 @@ builder.Services.AddTransient<IOrderStatusDAO, OrderStatusDAO>();
 builder.Services.AddTransient<IUserDAO, UserDAO>();
 builder.Services.AddTransient<IUserRoleDAO, UserRoleDAO>();
 builder.Services.AddTransient<IObserver>(provider => new Observer("log.txt"));
-
 builder.Services.AddSingleton<InstrumentCaretaker>();
+builder.Services.AddHttpContextAccessor();
 
 
 var app = builder.Build();
@@ -42,6 +48,19 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
+
+app.Use(async (context, next) =>
+{
+    if (string.IsNullOrEmpty(context.Session.GetString("UserRole")))
+    {
+        context.Session.SetString("UserRole", "{\"Id\":1,\"Name\":\"User\"}");
+        context.Session.SetString("IsAuthorized", "No");
+    }
+
+    await next();
+});
 
 app.MapRazorPages();
 

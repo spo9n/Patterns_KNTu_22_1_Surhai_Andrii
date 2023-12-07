@@ -196,3 +196,33 @@
 05.12.2023 18:39:24: INFO. Instrument with instrument_id = 2 was UPDATED with name = Bass Guitar 15157898991, category_id = 3, brand_id = 1, country_id = 1, year = 2017, price = 1251, quantity = 588, description = Description.....
 05.12.2023 18:39:32: INFO. Instrument with instrument_id = 2 was UPDATED with name = Bass Guitar 15151, category_id = 3, brand_id = 1, country_id = 1, year = 2017, price = 1251, quantity = 588, description = Description.....
 05.12.2023 18:39:47: INFO. Instrument with instrument_id = 2 was UPDATED with name = Bass Guitar 1, category_id = 3, brand_id = 1, country_id = 1, year = 2022, price = 25001, quantity = 5, description = Description.....
+06.12.2023 15:35:41: INFO. User with user_role_id = 3, surname = 1241, name = 12414, patronymic = 1515, email = 12515@1151.12, phone = 15151, username = 12515, password = 122 was CREATED.
+06.12.2023 16:14:04: INFO. User with user_role_id = 3, surname = 1241, name = 1515, patronymic = 5151, email = 15125@1251.24, phone = 1241414, username = 1241244, password = 5511 was CREATED.
+06.12.2023 16:14:29: ERROR. MySql.Data.MySqlClient.MySqlException (0x80004005): Duplicate entry '15151' for key 'users.phone_UNIQUE'
+   at MySql.Data.MySqlClient.MySqlStream.ReadPacketAsync(Boolean execAsync)
+   at MySql.Data.MySqlClient.NativeDriver.GetResultAsync(Int32 affectedRow, Int64 insertedId, Boolean execAsync)
+   at MySql.Data.MySqlClient.Driver.GetResultAsync(Int32 statementId, Int32 affectedRows, Int64 insertedId, Boolean execAsync)
+   at MySql.Data.MySqlClient.Driver.NextResultAsync(Int32 statementId, Boolean force, Boolean execAsync)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlDataReader.NextResultAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteReaderAsync(CommandBehavior behavior, Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteScalarAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteScalar()
+   at Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl.UserDAO.Create(User user) in C:\Users\Alienware\source\repos\NURE\Patterns\Patterns_KNTu_22_1_Surhai_Andrii\Patterns_KNTu_22_1_Surhai_Andrii.DAL\DAO\Impl\UserDAO.cs:line 45.
+06.12.2023 17:16:44: ERROR. System.InvalidOperationException: The connection is already open.
+   at MySql.Data.MySqlClient.Interceptors.ExceptionInterceptor.Throw(Exception exception)
+   at MySql.Data.MySqlClient.MySqlConnection.OpenAsync(Boolean execAsync, CancellationToken cancellationToken)
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at Patterns_KNTu_22_1_Surhai_Andrii.DAL.Database.DatabaseConnection.GetConnection() in C:\Users\Alienware\source\repos\NURE\Patterns\Patterns_KNTu_22_1_Surhai_Andrii\Patterns_KNTu_22_1_Surhai_Andrii.DAL\Database\DatabaseConnection.cs:line 41
+   at Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl.InstrumentDAO.GetAll() in C:\Users\Alienware\source\repos\NURE\Patterns\Patterns_KNTu_22_1_Surhai_Andrii\Patterns_KNTu_22_1_Surhai_Andrii.DAL\DAO\Impl\InstrumentDAO.cs:line 152.
+06.12.2023 20:47:54: INFO. Instrument with instrument_id = 1 was UPDATED with name = 15, category_id = 1, brand_id = 3, country_id = 2, year = 2023, price = 1515, quantity = 1515, description = 1515.
+06.12.2023 20:48:03: INFO. Instrument with instrument_id = 1 was UPDATED with name = Acoustic Guitar 1, category_id = 1, brand_id = 5, country_id = 4, year = 2020, price = 14500, quantity = 10, description = Description.....
+06.12.2023 20:52:25: INFO. Instrument with instrument_id = 2 was UPDATED with name = Bass Guitar 111, category_id = 3, brand_id = 1, country_id = 1, year = 2022, price = 25001, quantity = 5, description = Description.....
+06.12.2023 20:52:34: INFO. Instrument with instrument_id = 2 was UPDATED with name = Bass Guitar 1, category_id = 3, brand_id = 1, country_id = 1, year = 2022, price = 25001, quantity = 5, description = Description.....
+06.12.2023 22:00:22: INFO. Instrument with instrument_id = 3 was UPDATED with name = Electric Guitar 122, category_id = 2, brand_id = 1, country_id = 5, year = 2023, price = 31000, quantity = 3, description = Description.....
+06.12.2023 22:00:26: INFO. Instrument with instrument_id = 3 was UPDATED with name = Electric Guitar 1, category_id = 2, brand_id = 1, country_id = 5, year = 2023, price = 31000, quantity = 3, description = Description.....
+07.12.2023 16:33:45: INFO. User with user_role_id = 1, surname = Петров, name = Петро, patronymic = Петрович, email = petrov.petrovich@gmail.com, phone = +380669898095, username = petrovich2134, password = 123321 was CREATED.
+07.12.2023 16:57:33: INFO. Instrument with instrument_id = 1 was DELETED.
+07.12.2023 17:09:29: INFO. Instrument with name = Acoustic Guitar 5, category_id = 1, brand_id = 3, country_id = 2, year = 2023, price = 12500, quantity = 4, description = Description.... was CREATED.

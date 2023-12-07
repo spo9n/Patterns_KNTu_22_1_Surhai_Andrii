@@ -12,15 +12,18 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Users
         private readonly IObserver _observer;
         private readonly IDAOFactory _daoFactory;
         private readonly IUserDAO _userDAO;
+        private readonly IUserRoleDAO _userRoleDAO;
 
         public User User { get; set; }
         public List<User> Users { get; set; }
+        public List<UserRole> UsersRoles { get; set; }
 
 
         public IndexModel(IDAOFactory daoFactory, IObserver observer)
         {
             this._daoFactory = daoFactory;
             this._userDAO = _daoFactory.CreateUserDAO();
+            this._userRoleDAO = _daoFactory.CreateUserRoleDAO();
             this._observer = observer;
             this._userDAO.AddObserver(_observer);
         }
@@ -28,6 +31,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Users
         public void OnGet()
         {
             Users = _userDAO.GetAll();
+            UsersRoles = _userRoleDAO.GetAll();
         }
 
         public void OnPostDelete()

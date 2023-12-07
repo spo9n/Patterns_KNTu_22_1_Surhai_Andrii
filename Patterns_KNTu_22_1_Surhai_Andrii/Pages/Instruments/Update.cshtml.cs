@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
@@ -15,6 +16,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
         private readonly ICategoryDAO _categoryDAO;
         private readonly IBrandDAO _brandDAO;
         private readonly ICountryDAO _countryDAO;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public Instrument Instrument { get; set; }
         public List<Instrument> Instruments { get; set; }
@@ -22,18 +24,25 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
         public List<Brand> Brands { get; set; }
         public List<Country> Countries { get; set; }
         public InstrumentCaretaker InstrumentCaretaker { get; private set; }
+        public UserRole UserRole { get; set; }
 
 
-        public UpdateModel(IDAOFactory daoFactory, IObserver observer, InstrumentCaretaker instrumentCaretaker)
+        public UpdateModel(IDAOFactory daoFactory, IObserver observer, InstrumentCaretaker instrumentCaretaker, IHttpContextAccessor httpContextAccessor)
         {
-            this._daoFactory = daoFactory;
-            this._instrumentDAO = _daoFactory.CreateInstrumentDAO();
-            this._categoryDAO = _daoFactory.CreateCategoryDAO();
-            this._brandDAO = _daoFactory.CreateBrandDAO();
-            this._countryDAO = _daoFactory.CreateCountryDAO();
-            this._observer = observer;
-            this._instrumentDAO.AddObserver(_observer);
-            this.InstrumentCaretaker = instrumentCaretaker;
+            _httpContextAccessor = httpContextAccessor;
+            string serializedUserRole = _httpContextAccessor.HttpContext.Session.GetString("UserRole");
+            UserRole = JsonConvert.DeserializeObject<UserRole>(serializedUserRole);
+
+            _daoFactory = daoFactory;
+            //this._instrumentDAO = _daoFactory.CreateInstrumentDAO();
+            _instrumentDAO = _daoFactory.CreateProxyInstrumentDAO(UserRole);
+            _categoryDAO = _daoFactory.CreateCategoryDAO();
+            _brandDAO = _daoFactory.CreateBrandDAO();
+            _countryDAO = _daoFactory.CreateCountryDAO();
+            _observer = observer;
+            _instrumentDAO.AddObserver(_observer);
+            InstrumentCaretaker = instrumentCaretaker;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public void OnGet()
@@ -58,7 +67,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
 
             Instrument instrumentBeforeUpdate = _instrumentDAO.GetById(id);
             InstrumentMemento instrumentMemento = instrumentBeforeUpdate.CreateMemento();
-            InstrumentCaretaker.AddMemento(instrumentMemento);
+            
 
             Instrument = new Instrument.Builder()
                 .WithId(id)
@@ -72,7 +81,15 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.Pages.Instruments
                 .WithDescription(description)
                 .Build();
 
-            _instrumentDAO.Update(Instrument);
+            try
+            {
+                _instrumentDAO.Update(Instrument);
+                InstrumentCaretaker.AddMemento(instrumentMemento);
+            }
+            catch (AccessViolationException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+            }
 
             OnGet();
         }

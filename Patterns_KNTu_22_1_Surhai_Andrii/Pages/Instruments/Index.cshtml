@@ -39,9 +39,6 @@
                 <tr>
                     <td>@instrument.Id</td>
                     <td>@instrument.Name</td>
-                    @* <td>@instrument.CategoryId</td>
-                    <td>@instrument.BrandId</td>
-                    <td>@instrument.CountryId</td> *@
                     <td>@Model.Categories.FirstOrDefault(c => c.Id == instrument.CategoryId)?.Name</td>
                     <td>@Model.Brands.FirstOrDefault(b => b.Id == instrument.BrandId)?.Name</td>
                     <td>@Model.Countries.FirstOrDefault(ct => ct.Id == instrument.CountryId)?.Name</td>
@@ -72,7 +69,18 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
-
+@if (Model.ModelState.ErrorCount > 0)
+{
+    <div class="alert alert-danger mt-3" role="alert">
+        @foreach (var modelState in Model.ModelState.Values)
+        {
+            foreach (var error in modelState.Errors)
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        }
+    </div>
+}
 
 
 <div>

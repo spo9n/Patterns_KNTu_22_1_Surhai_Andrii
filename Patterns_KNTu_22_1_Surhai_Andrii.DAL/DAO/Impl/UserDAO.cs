@@ -12,12 +12,13 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
         private DatabaseConnection _connection = DatabaseConnection.Instance;
         private MySqlCommand _command;
 
-        private const string _insertSQL = "INSERT INTO users(user_role_id, surname, name, patronymic, email, phone) " +
-            "VALUES (@UserRoleId, @Surname, @Name, @Patronymic, @Email, @Phone);";
-        private const string _updateSQL = "UPDATE users SET user_role_id = @UserRoleId, surname = @Surname, name = @Name, patronymic = @Patronymic, email = @Email, phone = @Phone " +
-            "WHERE user_id = @Id;";
+        private const string _insertSQL = "INSERT INTO users(user_role_id, surname, name, patronymic, email, phone, username, password) " +
+            "VALUES (@UserRoleId, @Surname, @Name, @Patronymic, @Email, @Phone, @Username, @Password);";
+        private const string _updateSQL = "UPDATE users SET user_role_id = @UserRoleId, surname = @Surname, name = @Name, " +
+            "patronymic = @Patronymic, email = @Email, phone = @Phone, username = @Username, password = @Password WHERE user_id = @Id;";
         private const string _deleteSQL = "DELETE FROM users WHERE user_id = @Id;";
         private const string _selectByIdSQL = "SELECT * FROM users WHERE user_id = @id;";
+        private const string _selectByUsernameSQL = "SELECT * FROM users WHERE username = @Username;";
         private const string _selectAllSQL = "SELECT * FROM users;";
 
 
@@ -40,10 +41,12 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 _command.Parameters.AddWithValue("@Patronymic", user.Patronymic);
                 _command.Parameters.AddWithValue("@Email", user.Email);
                 _command.Parameters.AddWithValue("@Phone", user.Phone);
+                _command.Parameters.AddWithValue("@Username", user.Username);
+                _command.Parameters.AddWithValue("@Password", user.Password);
                 object result = _command.ExecuteScalar();
 
                 Notify($"INFO. User with user_role_id = {user.UserRoleId}, surname = {user.Surname}, name = {user.Name}, patronymic = {user.Patronymic}, " +
-                    $"email = {user.Email}, phone = {user.Phone} was CREATED.");
+                    $"email = {user.Email}, phone = {user.Phone}, username = {user.Username}, password = {user.Password} was CREATED.");
             }
             catch (Exception ex)
             {
@@ -69,7 +72,7 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                 object result = _command.ExecuteScalar();
 
                 Notify($"INFO. User with user_id = {user.Id} was UPDATED with user_role_id = {user.UserRoleId}, surname = {user.Surname}, name = {user.Name}, " +
-                    $"patronymic = {user.Patronymic}, email = {user.Email}, phone = {user.Phone}.");
+                    $"patronymic = {user.Patronymic}, email = {user.Email}, phone = {user.Phone}, username = {user.Username}, password = {user.Password}.");
             }
             catch (Exception ex)
             {
@@ -120,6 +123,48 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                         .WithPatronymic(Convert.ToString(dataReader.GetValue(4)))
                         .WithEmail(Convert.ToString(dataReader.GetValue(5)))
                         .WithPhone(Convert.ToString(dataReader.GetValue(6)))
+                        .WithUsername(Convert.ToString(dataReader.GetValue(7)))
+                        .WithPassword(Convert.ToString(dataReader.GetValue(8)))
+                        .Build();
+                }
+
+                dataReader.Close();
+                _connection.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                Notify($"ERROR. {ex.ToString()}.");
+            }
+
+            return user;
+        }
+
+        public User GetByUsername(string username)
+        {
+            User user = null;
+            try
+            {
+                _connection.GetConnection();
+                _command = _connection.GetConnection().CreateCommand();
+                _command.CommandText = _selectByUsernameSQL;
+                _command.Parameters.AddWithValue("@Username", username);
+                object result = _command.ExecuteScalar();
+
+                MySqlDataReader dataReader = _command.ExecuteReader();
+
+                if (dataReader.Read())
+                {
+                    user = new User.Builder()
+                        .WithId(Convert.ToInt32(dataReader.GetValue(0)))
+                        .WithUserRoleId(Convert.ToInt32(dataReader.GetValue(1)))
+                        .WithSurname(Convert.ToString(dataReader.GetValue(2)))
+                        .WithName(Convert.ToString(dataReader.GetValue(3)))
+                        .WithPatronymic(Convert.ToString(dataReader.GetValue(4)))
+                        .WithEmail(Convert.ToString(dataReader.GetValue(5)))
+                        .WithPhone(Convert.ToString(dataReader.GetValue(6)))
+                        .WithUsername(Convert.ToString(dataReader.GetValue(7)))
+                        .WithPassword(Convert.ToString(dataReader.GetValue(8)))
                         .Build();
                 }
 
@@ -158,6 +203,8 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
                         .WithPatronymic(Convert.ToString(dataReader.GetValue(4)))
                         .WithEmail(Convert.ToString(dataReader.GetValue(5)))
                         .WithPhone(Convert.ToString(dataReader.GetValue(6)))
+                        .WithUsername(Convert.ToString(dataReader.GetValue(7)))
+                        .WithPassword(Convert.ToString(dataReader.GetValue(8)))
                         .Build();
                     users.Add(user);
                 }

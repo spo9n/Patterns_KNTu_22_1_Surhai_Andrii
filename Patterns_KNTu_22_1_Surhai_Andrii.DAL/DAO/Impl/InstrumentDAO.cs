@@ -26,7 +26,6 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl
             this._observers = new List<IObserver>();
         }
 
-
         public void Create(Instrument instrument)
         {
             try

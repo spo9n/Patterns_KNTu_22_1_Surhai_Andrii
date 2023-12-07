@@ -1,5 +1,7 @@
 ﻿using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Impl;
 using Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Interfaces;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Entities;
+using Patterns_KNTu_22_1_Surhai_Andrii.DAL.Proxy;
 
 namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory
 {
@@ -23,6 +25,11 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.DAO.Factory
         public IInstrumentDAO CreateInstrumentDAO()
         {
             return new InstrumentDAO();
+        }
+
+        public IInstrumentDAO CreateProxyInstrumentDAO(UserRole userRole)
+        {
+            return new ProxyInstrumentDAO(userRole);
         }
 
         public IOrderDAO CreateOrderDAO()

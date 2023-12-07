@@ -18,6 +18,15 @@
         </select>
     </div>
 
+    <label for="user_role_id" class="col-form-label">User Role:</label>
+    <select id="user_role_id" name="user_role_id" class="form-select-sm" required>
+        @foreach (var userRole in Model.UsersRoles)
+        {
+            <option value="@userRole.Id">@userRole.Name</option>
+        }
+    </select>
+    <br>
+
     <label for="surname" class="col-form-label">Surname:</label>
     <input type="text" id="surname" name="surname" required>
     <br>
@@ -38,6 +47,14 @@
     <input type="text" id="phone" name="phone" required>
     <br>
 
+    <label for="username" class="col-form-label">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <br>
+
+    <label for="password" class="col-form-label">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
+
     <div>
         <input type="submit" class="btn btn-primary" value="Update">
     </div>
@@ -55,18 +72,24 @@
                 var selectedId = $(this).val();
                 if (selectedId) {
                     $.get("/Users/Index?handler=GetUserById&id=" + selectedId, function (data) {
+                        $("#user_role_id").val(data.userRoleId);
                         $("#surname").val(data.surname);
                         $("#name").val(data.name);
                         $("#patronymic").val(data.patronymic);
                         $("#email").val(data.email);
                         $("#phone").val(data.phone);
+                        $("#username").val(data.username);
+                        $("#password").val(data.password);
                     });
                 } else {
+                    $("#user_role_id").val('');
                     $("#surname").val('');
                     $("#name").val('');
                     $("#patronymic").val('');
                     $("#email").val('');
                     $("#phone").val('');
+                    $("#username").val('');
+                    $("#password").val('');
                 }
             });
         });

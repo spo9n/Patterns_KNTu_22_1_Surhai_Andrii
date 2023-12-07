@@ -13,59 +13,80 @@ namespace Patterns_KNTu_22_1_Surhai_Andrii.DAL.Proxy
 
         public ProxyInstrumentDAO(UserRole userRole)
         {
-            ///
             this._instrumentDAO = new DAOFactory().CreateInstrumentDAO();
-            ///
-
             this._userRole = userRole;
         }
 
         public void Create(Instrument instrument)
         {
-            //if (_userRole == Admin)
-            //{
-            //    _instrumentDAO.Create(instrument);
-            //}
-            //else
-            //{
-            //    exception
-            //}
-            //throw new NotImplementedException();
+            if (_userRole.Name == "Admin")
+            {
+                _instrumentDAO.Create(instrument);
+            }
+            else
+            {
+                string errorMessage = "Access denied! Only Admin can create Instruments.";
+                Console.WriteLine(errorMessage);
+                throw new AccessViolationException(errorMessage);
+            }
         }
 
         public void Update(Instrument instrument)
         {
-            throw new NotImplementedException();
+            if (_userRole.Name == "Admin")
+            {
+                _instrumentDAO.Update(instrument);
+            }
+            else
+            {
+                string errorMessage = "Access denied! Only Admin can update Instruments.";
+                Console.WriteLine(errorMessage);
+                throw new AccessViolationException(errorMessage);
+            }
+
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            if (_userRole.Name == "Admin")
+            {
+                _instrumentDAO.Delete(id);
+            }
+            else
+            {
+                string errorMessage = "Access denied! Only Admin can delete Instruments.";
+                Console.WriteLine(errorMessage);
+                throw new AccessViolationException(errorMessage);
+            }
         }
 
         public List<Instrument> GetAll()
         {
-            throw new NotImplementedException();
+            List<Instrument> instruments = _instrumentDAO.GetAll();
+
+            return instruments;
         }
 
         public Instrument GetById(int id)
         {
-            throw new NotImplementedException();
+            Instrument instrument = _instrumentDAO.GetById(id);
+
+            return instrument;
         }
 
         public void AddObserver(IObserver observer)
         {
-            throw new NotImplementedException();
+            _instrumentDAO.AddObserver(observer);
         }
 
         public void RemoveObserver(IObserver observer)
         {
-            throw new NotImplementedException();
+            _instrumentDAO.RemoveObserver(observer);
         }
 
         public void Notify(string message)
         {
-            throw new NotImplementedException();
+            _instrumentDAO.Notify(message);
         }
     }
 }

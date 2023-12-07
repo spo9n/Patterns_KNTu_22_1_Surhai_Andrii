@@ -9,6 +9,8 @@
         public string Patronymic { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
 
 
         private User()
@@ -62,10 +64,22 @@
                 return this;
             }
 
+            public Builder WithUsername(string username)
+            {
+                user.Username = username;
+                return this;
+            }
+
+            public Builder WithPassword(string password)
+            {
+                user.Password = password;
+                return this;
+            }
+
             public User Build()
             {
                 if (user.UserRoleId == null || string.IsNullOrEmpty(user.Surname) || string.IsNullOrEmpty(user.Name) || string.IsNullOrEmpty(user.Patronymic) ||
-                    string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Phone))
+                    string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Phone) || string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
                 {
                     throw new InvalidOperationException("Fields are required.");
                 }

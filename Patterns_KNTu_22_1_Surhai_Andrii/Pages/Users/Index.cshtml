@@ -23,11 +23,14 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Role</th>
                 <th>Surname</th>
                 <th>Name</th>
                 <th>Patronymic</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Username</th>
+                <th>Password</th>
             </tr>
         </thead>
         <tbody>
@@ -35,11 +38,14 @@
             {
                 <tr>
                     <td>@user.Id</td>
+                    <td>@Model.UsersRoles.FirstOrDefault(r => r.Id == user.UserRoleId)?.Name</td>
                     <td>@user.Surname</td>
                     <td>@user.Name</td>
                     <td>@user.Patronymic</td>
                     <td>@user.Email</td>
                     <td>@user.Phone</td>
+                    <td>@user.Username</td>
+                    <td>@user.Password</td>
                 </tr>
             }
         </tbody>
